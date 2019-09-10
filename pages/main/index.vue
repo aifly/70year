@@ -76,7 +76,7 @@
   				zmitiAnimate.mTween({
 					el:this.$refs['toZ'],
 					attrs:{
-						translateZ:-1600
+						translateZ:-1800
 					},
 					duration:100,
 					fx:'easeIn'
@@ -138,7 +138,7 @@
 				zmitiAnimate.mTween({
 					el:this.$refs['toZ'],
 					attrs:{
-						translateZ:-1500
+						translateZ:-1700
 					},
 					duration:300,
 					fx:'easeIn'
@@ -187,7 +187,6 @@
   						var nowDeg = (e.alpha + e.gamma)%360;
   						var disDeg = nowDeg - this.startDeg;
 
-  						console.log(this.startBoxDeg)
 
   						zmitiAnimate.css(box,'rotateY',disDeg + this.startBoxDeg);
   					}
@@ -201,10 +200,10 @@
 
 			var angle = 360 / this.bgImgs.length;
 			
-			var Z = Math.tan(Math.PI/180*(180-angle)/2)*250/2 ;
+			var Z = Math.tan(Math.PI/180*(180-angle)/2)*260/2 ;
 			this.bgImgs.forEach((item,i)=>{
 				item.style = {
-					width:'250px',
+					width:'260px',
 					height:'1206px',
 					background:'url('+item.img+') no-repeat center center',
 					backgroundSize:'cover',

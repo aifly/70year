@@ -128,6 +128,9 @@ new Vue({
 
 		}, () => {
 
+
+			return;
+
 			obserable.trigger({
 				type:'hideloading'
 			});

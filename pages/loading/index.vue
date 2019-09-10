@@ -2,7 +2,18 @@
 	<transition name='loading'>
 		<section v-if='show' class="lt-full zmiti-loading1" >
 			
-			<div class='zmiti-loading-ui' v-if='!loaded && showLoading'>
+			<div class='zmiti-laoding-view lt-full' :class="{'active':beginLoading}">
+
+				<div class="zmiti-loading-icons">		
+					<span v-for="(icon,i) in boxImgs" :key="i"
+						:style="icon[scale?'style':'style']"
+					>
+						<img :src="icon.img" alt="">
+					</span>
+				</div>
+			</div>
+
+			<div class='zmiti-loading-ui' v-if='!loaded && showLoading && false'>
 				<div class='zmiti-loading-C'>
 					<div class='zmiti-loading-bar '  :style="{webkitTransform:'scale('+(width)+',1)'}">  </div>
 				</div>
@@ -24,8 +35,10 @@
 		data(){
 			return{
 				imgs:window.imgs,
-				
+				boxImgs:window.boxImgs,
+				scale:true,
 				className:"",
+				beginLoading:false,
 				viewW:Math.min(window.innerWidth,750),
 				viewH:window.innerHeight,
 				show:true,
@@ -55,14 +68,22 @@
 					type:'showIndexTitle'
 				})
 			},
-			setDate(D,i=1){
-				var arr = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
-				this.currentTime =  D.getHours() + '<span style="opacity:'+i+'"> </span>'+ (D.getMinutes()<10?'0'+D.getMinutes():D.getMinutes());
-				this.currentDate = (D.getMonth()+1)+ '月'+D.getDate()+'日 '+arr[D.getDay()];
-			}
+			 
 		},
 		mounted(){
 
+
+			
+
+			setTimeout(() => {
+				this.beginLoading = true;
+			}, 10);
+
+
+			setInterval(() => {
+				this.beginLoading = !this.beginLoading;
+				this.scale = !this.scale;
+			},4120);
  
 
 			this.obserable.on('hideloading',()=>{

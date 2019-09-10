@@ -3,13 +3,21 @@ var boxImgs = [
 	
 ];
 window.imgs = {
-
 };
+for (var i = 1; i <= 27; i++) {
+	boxImgs.push({
+		img: "./assets/images/loading/loadIco" + (i%9+1) + ".png",
+		style: {
+			transform: 'rotateY(' + (Math.random() * 360 | 0) + 'deg) translate3d(0,' + (Math.random() * 300 * (Math.random() > .5 ? 1 : -1)) + 'px,' + (Math.random() * 300 | 0 + 200) + 'px)', background: 'url(' + "./assets/images/loading/loadIco" + (i % 9 + 1) + ".png" + ') no-repeat center', transitionDelay: i * 50 + 'ms',
+			}
+		
+	});
+}
 boxImgs.forEach(function (item, i) {
-	window.imgs['index' + (i + 1)] = item.img;
+	window.imgs['loadIco' + (i + 1)] = item.img;
 });
 var bgImgs = [];
-for (var i = 0; i < 45; i++) {
+for (var i = 0; i < 46; i++) {
 
 	window.imgs['img' + (i + 1)] = './assets/images/1_' + (i + 1 <= 9 ? '0' + (i + 1) : i + 1) + '.png';
 	bgImgs.push({
@@ -17,7 +25,9 @@ for (var i = 0; i < 45; i++) {
 		id: 'img_' + i
 	})
 }
-var arr = [];
+var arr = [
+
+];
 
 
 for (var attr in imgs) {
@@ -25,14 +35,11 @@ for (var attr in imgs) {
 }
 
 window.config = {
-	indexvideo: './assets/video/index3.mp4',
-	indexvideo1: './assets/video/index3.mp4',
 	baseUrl: "https://testxlive.xinhuaapp.com",
 	host: "https://xlive.xinhuaapp.com", //正式域名：https://testxlive.xinhuaapp.com
 	secretKey: "e9469538b0623783f38c585821459454",
 
 };
-
 
 var musics = {
 	music: {
