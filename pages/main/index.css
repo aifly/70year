@@ -77,15 +77,15 @@
   transform-style: preserve-3d;
 }
 
-.zmiti-main-ui .zmiti-box-ui .zmiti-box-C, .zmiti-main-ui .zmiti-translateZ .zmiti-box-C {
+.zmiti-main-ui .zmiti-box-ui .zmiti-box-C, .zmiti-main-ui .zmiti-box-ui .zmiti-cloud-ui, .zmiti-main-ui .zmiti-translateZ .zmiti-box-C, .zmiti-main-ui .zmiti-translateZ .zmiti-cloud-ui {
   -webkit-transform-style: preserve-3d;
   transform-style: preserve-3d;
-  width: 129px;
-  height: 1170px;
+  width: 260px;
+  height: 1206px;
   position: absolute;
   left: 50%;
   top: 50%;
-  margin: -585px 0 0 -64.5px;
+  margin: -603px 0 0 -130px;
 }
 
 .zmiti-main-ui .zmiti-box-ui .zmiti-box-item, .zmiti-main-ui .zmiti-translateZ .zmiti-box-item {
@@ -96,6 +96,8 @@
   top: 0;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
 }
 
 @media all and (max-height: 1109px) {

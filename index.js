@@ -2,7 +2,7 @@ import Vue from "vue";
 import './pages/css/index.css';
 import Index from './pages/index/index';
 import Main from './pages/main/index';
-import Main1 from './pages/main1/index';
+//import Main1 from './pages/main1/index';
 import Loading from './pages/loading/index';
 import Obserable from './pages/lib/obserable';
 
@@ -97,7 +97,7 @@ new Vue({
 		Index,
 		Loading,
 		Main,
-		Main1,
+		
 	},
 	mounted() {
 
@@ -129,7 +129,6 @@ new Vue({
 		}, () => {
 
 
-			return;
 
 			obserable.trigger({
 				type:'hideloading'
