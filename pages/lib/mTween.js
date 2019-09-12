@@ -261,7 +261,8 @@ function mTween(props){
     
     for(var key in attrs){
       var currentPos = Tween[fx](time, beginData[key], changeData[key], duration,s);
-      css(el, key, currentPos);
+	  css(el, key, currentPos);
+		props.update && props.update.call(el, currentPos,key);
     }
     
     if(time === duration && typeof cb === 'function'){

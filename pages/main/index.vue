@@ -1,21 +1,32 @@
 <template>
-	<transition name='main'>
-		<div class="zmiti-main-ui" :style='{height:viewH+"px"}' :class="{'show':show}">
+	<transition name='main'><!--url("+imgs.bg+") no-repeat center-->
+		<div class="zmiti-main-ui" :style='{height:viewH+"px",background:"#eee",backgroundSize:"cover"}' :class="{'show':show}">
 			<div class="zmiti-view" :style="{perspective:perspective+'px'}">
 				<div class="zmiti-box-ui" ref='boxui'>
 					<div class="zmiti-translateZ" ref='toZ' @touchstart='touchstart' @touchmove='touchmove' @touchend='touchend'>
 						<div class="zmiti-box-C" ref='box' :class='{"active":rotateBox}'>
+							<div class='zmiti-t1'>
+								<img :src="imgs.t1"  alt="">
+							</div>
 							<div  :style="item.style"  ref='item' class="zmiti-box-item" v-for="(item,i) in bgImgs" :key='i'>
-							
+								<div v-tap=[showDetail,item] v-if="item.dom" class='zmiti-item-dom' :style="item.dom.style||{}">
+									<span v-if='false' v-html='item.dom.title'></span>
+								</div>
+							</div>
+							<div class='zmiti-t2'>
+								<img :src="imgs.t1"  alt="">
 							</div>
 						</div>
 						<div class='zmiti-cloud-ui lt-full' ref='cloud' v-if='showClound'>
 							<div class='zmiti-cloud-item' :style="cloud.style" v-for='(cloud,i) in clouds' :key="i">
-								<img :src="cloud.img" alt="">
+								<img :style="cloud.imgStyle||{}"  :src="cloud.img" alt="">
 							</div>
 						</div>
 					</div>
 				</div>
+			</div>
+			<div class='zmiti-detail-ui lt-full' v-if='currentObj.style'>
+				<span class='zmiti-detail-close' v-tap='[closeDetail]'>&times;</span>
 			</div>
 		</div>
 	</transition>
@@ -53,6 +64,9 @@ import { clearInterval } from 'timers';
 				isStart:true,
 				startBoxDeg:0,
 				showClound:true,
+				currentObj:{
+
+				}
 			}
 		},
 	
@@ -63,7 +77,13 @@ import { clearInterval } from 'timers';
 
 		},
 		methods: {
-  			
+			closeDetail(){
+				this.currentObj = {};
+			},
+			showDetail(item){
+				console.log(item)
+				this.currentObj = item.dom;
+			},
   			touchstart(e){
   				this.isTouch = true;
   				if(!this.isTouch){
@@ -238,10 +258,10 @@ import { clearInterval } from 'timers';
 			this.showClound = true;
 			var angle = 360 / this.bgImgs.length;
 			
-			var Z = Math.tan(Math.PI/180*(180-angle)/2)*260/2 ;
+			var Z = Math.tan(Math.PI/180*(180-angle)/2)*328/2 ;
 			this.bgImgs.forEach((item,i)=>{
 				item.style = {
-					width:'260px',
+					width:'328px',
 					height:'1206px',
 					background:'url('+item.img+') no-repeat center center',
 					backgroundSize:'cover',
@@ -249,6 +269,14 @@ import { clearInterval } from 'timers';
 					opacity:0
 				}
 			});
+
+			var perspective = Math.tan(Math.PI/180*65)* this.viewH /2*2 ;
+			this.perspective = perspective;
+			this.clouds.forEach((item)=>{
+				item.style = {
+					transform: 'rotateY(' + item.rotateY + 'deg) translate3d(0,' + (Math.random() * 200 * (Math.random() > .5 ? 1 : -1)) + 'px,' + Z/2  + 'px)', background: 'url(' + "./assets/images/loading/loadIco" + (i % 9 + 1) + ".png" + ') no-repeat center',
+					}
+			})
 
 			var iNow =0 ;
 
@@ -263,15 +291,20 @@ import { clearInterval } from 'timers';
 
 
 
-			var perspective = Math.tan(Math.PI/180*65)* this.viewH /2*2 ;
-			this.perspective = perspective;
+		
 			zmitiAnimate.css(this.$refs['boxui'],"translateZ",perspective);
 			this.bgImgs = this.bgImgs.concat([]);
 
-			zmitiAnimate.css(this.$refs['toZ'],'translateZ',-17000);
+			zmitiAnimate.css(this.$refs['toZ'],'translateZ',-8000);
 			zmitiAnimate.css(this.$refs['box'],'rotateX',0);
 			zmitiAnimate.css(this.$refs['box'],'rotateY',0);
 			zmitiAnimate.css(this.$refs['cloud'],'rotateY',0);
+			zmitiAnimate.css(this.$refs['cloud'],'translateX',0);
+
+			[...this.$refs['cloud'].querySelectorAll('img')].forEach(item=>{
+				zmitiAnimate.css(item,'rotateY',0);
+			})
+
 
 
 
@@ -279,11 +312,21 @@ import { clearInterval } from 'timers';
 				zmitiAnimate.mTween({
 					el:this.$refs['cloud'],
 					attrs:{
-						'rotateY':1080*2
+						'rotateY':720,
+						'translateX':1000
 					},
 					duration:4000,
 					cb:()=>{
-						this.showClound = false;
+
+						//this.showClound = false;
+						
+					},
+					update:(val,key)=>{
+						//this.$refs['cloud'].style.opacity = (1 - val / (1080*2 ))*2
+						[...this.$refs['cloud'].querySelectorAll('.zmiti-cloud-item')].forEach((item,i)=>{
+
+						//	zmitiAnimate.css(item.querySelector('img'),'rotateY',val - this.clouds[i].rotateY );
+						})
 					}
 				});
 				zmitiAnimate.mTween({
@@ -291,7 +334,7 @@ import { clearInterval } from 'timers';
 					attrs:{
 						'rotateY':1080
 					},
-					duration:4000,
+					duration:6000,
 					cb:()=>{
 						this.rotateStop = true;
 						this.bindEvent();

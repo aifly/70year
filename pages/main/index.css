@@ -69,6 +69,23 @@
   height: 100%;
 }
 
+.zmiti-main-ui .zmiti-detail-ui {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.zmiti-main-ui .zmiti-detail-ui .zmiti-detail-close {
+  position: absolute;
+  color: #fff;
+  font-size: 80px;
+  right: 30px;
+  top: 0;
+  width: 80px;
+  height: 80px;
+  line-height: 80px;
+  top: 30px;
+  text-align: center;
+}
+
 .zmiti-main-ui .zmiti-box-ui, .zmiti-main-ui .zmiti-translateZ {
   position: absolute;
   left: 50%;
@@ -80,12 +97,17 @@
 .zmiti-main-ui .zmiti-box-ui .zmiti-box-C, .zmiti-main-ui .zmiti-box-ui .zmiti-cloud-ui, .zmiti-main-ui .zmiti-translateZ .zmiti-box-C, .zmiti-main-ui .zmiti-translateZ .zmiti-cloud-ui {
   -webkit-transform-style: preserve-3d;
   transform-style: preserve-3d;
-  width: 260px;
+  width: 238px;
   height: 1206px;
   position: absolute;
   left: 50%;
   top: 50%;
   margin: -603px 0 0 -130px;
+}
+
+.zmiti-main-ui .zmiti-box-ui .zmiti-cloud-item, .zmiti-main-ui .zmiti-translateZ .zmiti-cloud-item {
+  position: absolute;
+  top: 50%;
 }
 
 .zmiti-main-ui .zmiti-box-ui .zmiti-box-item, .zmiti-main-ui .zmiti-translateZ .zmiti-box-item {
@@ -98,6 +120,50 @@
   -webkit-backface-visibility: hidden;
   -webkit-transition: 0.2s;
   transition: 0.2s;
+}
+
+.zmiti-main-ui .zmiti-box-ui .zmiti-box-item .zmiti-item-dom, .zmiti-main-ui .zmiti-translateZ .zmiti-box-item .zmiti-item-dom {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #2d81f6;
+}
+
+.zmiti-main-ui .zmiti-box-ui .zmiti-box-item .zmiti-item-dom::before, .zmiti-main-ui .zmiti-translateZ .zmiti-box-item .zmiti-item-dom::before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background: #2d81f6;
+  left: 0;
+  top: 0;
+  border-radius: 50%;
+  opacity: .5;
+  -webkit-animation: flash 1s infinite;
+  animation: flash 1s infinite;
+}
+
+@-webkit-keyframes flash {
+  to {
+    -webkit-transform: scale(3);
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+
+.zmiti-main-ui .zmiti-box-ui .zmiti-t1, .zmiti-main-ui .zmiti-translateZ .zmiti-t1 {
+  position: absolute;
+  top: 20%;
+  -webkit-transform: rotateX(-20deg) translateY(-200px) translateZ(-200px);
+  transform: rotateX(-20deg) translateY(-200px) translateZ(-200px);
+}
+
+.zmiti-main-ui .zmiti-box-ui .zmiti-t2, .zmiti-main-ui .zmiti-translateZ .zmiti-t2 {
+  position: absolute;
+  bottom: 0;
+  -webkit-transform: rotateX(30deg) translateY(-200px) translateZ(-200px);
+  transform: rotateX(30deg) translateY(-200px) translateZ(-200px);
 }
 
 @media all and (max-height: 1109px) {
