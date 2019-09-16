@@ -5,19 +5,29 @@
 				<div class="zmiti-box-ui" ref='boxui'>
 					<div class="zmiti-translateZ" ref='toZ' @touchstart='touchstart' @touchmove='touchmove' @touchend='touchend'>
 						<div class="zmiti-box-C" ref='box' :class='{"active":rotateBox}'>
-							<div class='zmiti-t1'>
-								<img :src="imgs.t1"  alt="">
-							</div>
+							 
 							<div  :style="item.style"  ref='item' class="zmiti-box-item" v-for="(item,i) in bgImgs" :key='i'>
-								<div v-tap=[showDetail,item] v-if="item.dom" class='zmiti-item-dom' :style="item.dom.style||{}">
+								<div v-tap=[showDetail,item] v-if="item.dom && false" class='zmiti-item-dom' :style="item.dom.style||{}">
 									<span v-if='false' v-html='item.dom.title'></span>
 								</div>
-							</div>
-							<div class='zmiti-t2'>
-								<img :src="imgs.t1"  alt="">
+							</div>				 
+						</div>
+						<div class="zmiti-box-C" ref='layer1'>
+							<div  :style="item.style" class="zmiti-box-item layer1" v-for="(item,k) in layer1" :key='k*100+30'>
+								
 							</div>
 						</div>
-						<div class='zmiti-cloud-ui lt-full' ref='cloud' v-if='showClound'>
+						<div class="zmiti-box-C" ref='layer2'>
+							<div  :style="item.style" class="zmiti-box-item layer2" v-for="(item,k) in layer2" :key='k*34+22'>
+							</div>
+						</div>
+
+						<div class="zmiti-box-C" ref='layer3'>
+							<div  :style="item.style" class="zmiti-box-item layer3" v-for="(item,k) in layer3" :key='k*43+25'>
+							</div>
+						</div>
+
+						<div class='zmiti-cloud-ui lt-full' ref='cloud' v-if='showClound' v-show='false'>
 							<div class='zmiti-cloud-item' :style="cloud.style" v-for='(cloud,i) in clouds' :key="i">
 								<img :style="cloud.imgStyle||{}"  :src="cloud.img" alt="">
 							</div>
@@ -50,6 +60,10 @@ import { clearInterval } from 'timers';
 			return {
 				show:true,
 				bgImgs:window.bgImgs,
+				layer1:window.layer1,
+				layer2:window.layer2,
+				layer3:window.layer3,
+
 				clouds:window.clouds,
 				imgs:window.imgs,
 				viewW:Math.min( window.innerWidth,750),
@@ -77,6 +91,37 @@ import { clearInterval } from 'timers';
 
 		},
 		methods: {
+			createLayer(angle,Z1,Z2,Z3){
+				///zmitiUtil.css(this.$refs['layer1'],)
+				this.layer1.forEach((item,i)=>{
+				item.style = {
+					width:'185px',
+					height:'1116px',
+					background:'url('+item.img+') no-repeat center center',
+					backgroundSize:'cover',
+					transform:"rotateY("+-angle*i+"deg) translateZ("+-Z1+"px)",
+				}
+			});
+
+			this.layer2.forEach((item,i)=>{
+				item.style = {
+					width:'190px',
+					height:'1146px',
+					background:'url('+item.img+') no-repeat center center',
+					backgroundSize:'cover',
+					transform:"rotateY("+-angle*i+"deg) translateZ("+-Z2+"px)",
+				}
+			});
+			this.layer3.forEach((item,i)=>{
+				item.style = {
+					width:'195px',
+					height:'1176px',
+					background:'url('+item.img+') no-repeat center center',
+					backgroundSize:'cover',
+					transform:"rotateY("+-angle*i+"deg) translateZ("+-Z3+"px)",
+				}
+			});
+			},
 			closeDetail(){
 				this.currentObj = {};
 			},
@@ -93,7 +138,9 @@ import { clearInterval } from 'timers';
   					return;
   				}
   				this.startRotateY = zmitiAnimate.css(this.$refs['box'],'rotateY');
-				this.startRotateX = zmitiAnimate.css(this.$refs['box'],'rotateX')||0;
+  				this.startRotateLayer1 = zmitiAnimate.css(this.$refs['layer1'],'rotateY');
+  				this.startRotateLayer2 = zmitiAnimate.css(this.$refs['layer2'],'rotateY');
+  				this.startRotateLayer3 = zmitiAnimate.css(this.$refs['layer3'],'rotateY');
 				
   				this.startX = e.changedTouches[0].pageX;
   				this.startY = e.changedTouches[0].pageY;
@@ -104,14 +151,6 @@ import { clearInterval } from 'timers';
   				this.lastSpeed = 0;
   				zmitiAnimate.mTween.stop(this.$refs['toZ']);
 
-  				zmitiAnimate.mTween({
-					el:this.$refs['toZ'],
-					attrs:{
-						translateZ:-1500
-					},
-					duration:100,
-					fx:'easeIn'
-				})
 
 				this.startZ = zmitiAnimate.css(this.$refs['toZ'],'translateZ');
   			},
@@ -123,10 +162,19 @@ import { clearInterval } from 'timers';
   					var endX = e.changedTouches[0].pageX;
   					var endY = e.changedTouches[0].pageY;
   					
-  					var angleY = (endX - this.startX)/this.viewW * 100;
-  					this.angleY = angleY;
-					  zmitiAnimate.css(this.$refs['box'],'rotateY',this.startRotateY-angleY);
-					  
+  					var angleY = (endX - this.startX)/this.viewW * 60;
+					this.angleY = angleY;
+
+					var angle1  =(endX - this.startX)/this.viewW * 120;
+					var angle2  =(endX - this.startX)/this.viewW * 100;
+					var angle3  =(endX - this.startX)/this.viewW * 80;
+					
+					zmitiAnimate.css(this.$refs['box'],'rotateY',this.startRotateY-angleY);
+					zmitiAnimate.css(this.$refs['layer1'],'rotateY',(this.startRotateLayer1-angle1));
+					zmitiAnimate.css(this.$refs['layer2'],'rotateY',(this.startRotateLayer2-angle2));
+					zmitiAnimate.css(this.$refs['layer3'],'rotateY',(this.startRotateLayer3-angle3));
+
+					return;
 					var angleX = (endY - this.startY)/this.viewH * 100;
 					  this.angleX = angleX;
 					  if(angleX - this.startRotateX>0){
@@ -135,9 +183,12 @@ import { clearInterval } from 'timers';
 						  var x = Math.max(angleX - this.startRotateX,-20);
 
 					  }
+
 					 
 
-  					zmitiAnimate.css(this.$refs['box'],'rotateX',x);
+					 return;
+
+  					//zmitiAnimate.css(this.$refs['box'],'rotateX',x);
 
   					var nowTime = Date.now();
   					this.lastSpeed = (endX - this.lastPoint) / (nowTime - this.lastTime)*300;
@@ -146,7 +197,7 @@ import { clearInterval } from 'timers';
 					this.lastTime = nowTime;
 					
 					var z = Math.max(this.startZ - Math.abs(endX - this.startX),-2000);
-					zmitiAnimate.css(this.$refs['toZ'],'translateZ',z);
+					//zmitiAnimate.css(this.$refs['toZ'],'translateZ',z);
 					 
 
 
@@ -157,27 +208,9 @@ import { clearInterval } from 'timers';
   				if(!this.isTouch){
   					return;
   				}
-  				zmitiAnimate.mTween.stop(this.$refs['toZ']);
-				zmitiAnimate.mTween({
-					el:this.$refs['toZ'],
-					attrs:{
-						translateZ:-1500
-					},
-					duration:300,
-					fx:'easeIn',
-
-				})
+  				 
   				if(!this.rotateStop ||this.lastSpeed === 0||Date.now()-this.lastTime>=40){
-					zmitiAnimate.mTween({
-						el:this.$refs['box'],
-						attrs:{
-							rotateX:0
-						},
-						duration:300,
-						fx:'easeOutStrong',
-						cb:()=>{
-						}
-					})
+					 
   					setTimeout(()=>{
   						this.isStart = false;
   					},330);
@@ -194,22 +227,38 @@ import { clearInterval } from 'timers';
 
 				var dis = (this.lastSpeed)/this.viewW * 120;
 
-				zmitiAnimate.mTween.stop(this.$refs['toZ']);
-				zmitiAnimate.mTween({
-					el:this.$refs['toZ'],
-					attrs:{
-						translateZ:-1500
-					},
-					duration:800,
-					fx:'easeOut'
-
-				})
+				 
 
 				zmitiAnimate.mTween.stop(this.$refs['box']);
+				zmitiAnimate.mTween.stop(this.$refs['layer1']);
+				zmitiAnimate.mTween.stop(this.$refs['layer2']);
+				zmitiAnimate.mTween.stop(this.$refs['layer3']);
 				zmitiAnimate.mTween({
 					el:this.$refs['box'],
 					attrs:{
 						rotateY:zmitiAnimate.css(this.$refs['box'],'rotateY') - dis,
+						rotateX:0
+					},
+					duration:{
+						multiple:2,
+						min:200,
+						max:1500
+					},
+					fx:'easeOutStrong',
+					cb:()=>{
+						this.isTouch = false;
+						this.isStart = true;
+						//zmitiAnimate.css(this.$refs['box'],'rotateX',0);
+					}
+				})
+
+
+				return
+
+				zmitiAnimate.mTween({
+					el:this.$refs['layer1'],
+					attrs:{
+						rotateY:zmitiAnimate.css(this.$refs['layer1'],'rotateY') - dis,
 						rotateX:0
 					},
 					duration:{
@@ -258,10 +307,13 @@ import { clearInterval } from 'timers';
 			this.showClound = true;
 			var angle = 360 / this.bgImgs.length;
 			
-			var Z = Math.tan(Math.PI/180*(180-angle)/2)*328/2 ;
+			var Z = Math.tan(Math.PI/180*(180-angle)/2)*200/2;
+			var Z1 = Math.tan(Math.PI/180*(180-angle)/2)*185/2;
+			var Z2 = Math.tan(Math.PI/180*(180-angle)/2)*190/2;
+			var Z3 = Math.tan(Math.PI/180*(180-angle)/2)*195/2;
 			this.bgImgs.forEach((item,i)=>{
 				item.style = {
-					width:'328px',
+					width:'200px',
 					height:'1206px',
 					background:'url('+item.img+') no-repeat center center',
 					backgroundSize:'cover',
@@ -270,7 +322,11 @@ import { clearInterval } from 'timers';
 				}
 			});
 
-			var perspective = Math.tan(Math.PI/180*65)* this.viewH /2*2 ;
+			this.createLayer(angle,Z1,Z2,Z3);
+
+			
+
+			var perspective = Math.tan(Math.PI/180*63)* this.viewH /2*2 ;
 			this.perspective = perspective;
 			this.clouds.forEach((item)=>{
 				item.style = {
@@ -295,8 +351,10 @@ import { clearInterval } from 'timers';
 			zmitiAnimate.css(this.$refs['boxui'],"translateZ",perspective);
 			this.bgImgs = this.bgImgs.concat([]);
 
-			zmitiAnimate.css(this.$refs['toZ'],'translateZ',-8000);
-			zmitiAnimate.css(this.$refs['box'],'rotateX',0);
+			zmitiAnimate.css(this.$refs['toZ'],'translateZ',-1500);
+			zmitiAnimate.css(this.$refs['layer1'],'rotateY',0);
+			zmitiAnimate.css(this.$refs['layer2'],'rotateY',0);
+			zmitiAnimate.css(this.$refs['layer3'],'rotateY',0);
 			zmitiAnimate.css(this.$refs['box'],'rotateY',0);
 			zmitiAnimate.css(this.$refs['cloud'],'rotateY',0);
 			zmitiAnimate.css(this.$refs['cloud'],'translateX',0);
@@ -329,16 +387,46 @@ import { clearInterval } from 'timers';
 						})
 					}
 				});
+
 				zmitiAnimate.mTween({
 					el:this.$refs['box'],
 					attrs:{
-						'rotateY':1080
+						'rotateY':360
 					},
-					duration:6000,
+					duration:2000,
 					cb:()=>{
 						this.rotateStop = true;
 						this.bindEvent();
 						
+					}
+				});
+
+				zmitiAnimate.mTween({
+					el:this.$refs['layer1'],
+					attrs:{
+						'rotateY':360
+					},
+					duration:2000,
+					cb:()=>{
+					}
+				});
+
+				zmitiAnimate.mTween({
+					el:this.$refs['layer2'],
+					attrs:{
+						'rotateY':360
+					},
+					duration:2000,
+					cb:()=>{
+					}
+				});
+				zmitiAnimate.mTween({
+					el:this.$refs['layer3'],
+					attrs:{
+						'rotateY':360
+					},
+					duration:2000,
+					cb:()=>{
 					}
 				});
 			

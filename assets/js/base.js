@@ -200,11 +200,32 @@ var bgImgs = [
 ];
 for (var i = 0; i < 20; i++) {
 
-	window.imgs['img' + (i + 1)] = './assets/images/1_' + (i + 1 <= 9 ? '0' + (i + 1) : i + 1) + '.png';
-	bgImgs[i].img ='./assets/images/1_' + (i + 1 <= 9 ? '0' + (i + 1) : i + 1) + '.png';
+	window.imgs['img' + (i + 1)] = './assets/images/bg/1_' + (i + 1 <= 9 ? '0' + (i + 1) : i + 1) + '.jpg';
+	bgImgs[i].img ='./assets/images/bg/1_' + (i + 1 <= 9 ? '0' + (i + 1) : i + 1) + '.jpg';
+		
+}
+var layer1 = [];
+for(var i = 0;i<20;i++){
+	window.imgs['layer1'+(i+1)] = './assets/images/layer1/1_' + (i + 1 <= 9 ? '0' + (i + 1) : i + 1) + '.png';
+	layer1.push({
+		img:'./assets/images/layer1/1_' + (i + 1 <= 9 ? '0' + (i + 1) : i + 1) + '.png'
+	})
+}
 
-		
-		
+var layer2 = [];
+for(var i = 0;i<20;i++){
+	window.imgs['layer2'+(i+1)] = './assets/images/layer2/1_' + (i + 1 <= 9 ? '0' + (i + 1) : i + 1) + '.png';
+	layer2.push({
+		img:'./assets/images/layer2/1_' + (i + 1 <= 9 ? '0' + (i + 1) : i + 1) + '.png'
+	})
+}
+
+var layer3 = [];
+for(var i = 0;i<20;i++){
+	window.imgs['layer3'+(i+1)] = './assets/images/layer3/1_' + (i + 1 <= 9 ? '0' + (i + 1) : i + 1) + '.png';
+	layer3.push({
+		img:'./assets/images/layer3/1_' + (i + 1 <= 9 ? '0' + (i + 1) : i + 1) + '.png'
+	})
 }
 var arr = [
 
