@@ -284,6 +284,9 @@ import { clearInterval } from 'timers';
   						return;
   					}
   					var box = this.$refs['box'];
+  					var layer1 = this.$refs['layer1'];
+  					var layer2 = this.$refs['layer2'];
+  					var layer3 = this.$refs['layer3'];
 
   					if(this.isStart){
   						var deg = (e.alpha + e.gamma)%360;
@@ -291,11 +294,17 @@ import { clearInterval } from 'timers';
   						this.startDeg = deg;
 
   						this.startBoxDeg = zmitiAnimate.css(box,'rotateY');
+  						this.startlayer1Deg = zmitiAnimate.css(layer1,'rotateY');
+  						this.startlayer2Deg = zmitiAnimate.css(layer2,'rotateY');
+  						this.startlayer3Deg = zmitiAnimate.css(layer3,'rotateY');
 
   					}else{
   						var nowDeg = (e.alpha + e.gamma)%360;
   						var disDeg = nowDeg - this.startDeg;
   						zmitiAnimate.css(box,'rotateY',disDeg + this.startBoxDeg);
+  						zmitiAnimate.css(layer1,'rotateY',disDeg + this.startlayer1Deg);
+  						zmitiAnimate.css(layer2,'rotateY',disDeg + this.startlayer2Deg);
+  						zmitiAnimate.css(layer3,'rotateY',disDeg + this.startlayer3Deg);
   					}
   				});
   			}
