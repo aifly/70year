@@ -51,6 +51,44 @@ $color: #fffb88;
     }
     .zmiti-detail-ui{
 		background: rgba(0,0,0,.5);
+		@include displayBox(horizontal);
+
+		.zmiti-detail-content{
+			margin-top: -70px;
+			@include pos(r);
+			
+			.zmiti-detail-img{
+				@include pos(a);
+				top: 10px;
+				width: 96%;
+				left: 50%;
+				height: 100%;
+				
+				@include transform(translate(-50%));
+				@include displayBox(vertical);
+				//-webkit-box-pack:justify;
+			}
+			.zmiti-year-img{
+				width: 100%;
+				
+			}
+			.zmiti-detail-wrap{
+				color:#b17936;
+				height: 140px;
+				overflow: hidden;
+				margin: 30px 0;
+			}
+			.zmiti-detail-bottom{
+				height: 130px;
+				background: #b17936;
+				width: 100%;
+				@include displayBox(horizontal);
+				-webkit-box-pack: justify;
+				padding: 0 40px;
+				box-sizing: border-box;
+				
+			}
+		}
 		.zmiti-detail-close{
 			@include pos(a);
 			color:#fff;
@@ -88,7 +126,27 @@ $color: #fffb88;
                // @include transform(rotateY(1080deg));
 
             }
-        }
+		}
+		.zmiti-cloud-ui{
+			display:none;
+		}
+		.zmiti-box-C{
+
+			z-index: -99;
+			&.layer1{
+				z-index: 100;;
+			}
+			&.layer2{
+				z-index: -99;
+				background: red;
+				width: 0;
+				
+			}
+			&.layer3{
+				z-index: -98;
+				width: 0;
+			}
+		}
 		.zmiti-cloud-item{
 			@include pos(a);
 			top: 50%;
@@ -108,6 +166,7 @@ $color: #fffb88;
 			   width: 30px;
 			   height: 30px;
 			   @include br();
+			   z-index:1000;
 			   background: #2d81f6;
 			   &::before{
 				   content:"";

@@ -71,6 +71,53 @@
 
 .zmiti-main-ui .zmiti-detail-ui {
   background: rgba(0, 0, 0, 0.5);
+  display: -webkit-box;
+  -webkit-box-align: center;
+  -webkit-box-pack: center;
+  -webkit-box-orient: horizontal;
+}
+
+.zmiti-main-ui .zmiti-detail-ui .zmiti-detail-content {
+  margin-top: -70px;
+  position: relative;
+}
+
+.zmiti-main-ui .zmiti-detail-ui .zmiti-detail-content .zmiti-detail-img {
+  position: absolute;
+  top: 10px;
+  width: 96%;
+  left: 50%;
+  height: 100%;
+  -webkit-transform: translate(-50%);
+  transform: translate(-50%);
+  display: -webkit-box;
+  -webkit-box-align: center;
+  -webkit-box-pack: center;
+  -webkit-box-orient: vertical;
+}
+
+.zmiti-main-ui .zmiti-detail-ui .zmiti-detail-content .zmiti-year-img {
+  width: 100%;
+}
+
+.zmiti-main-ui .zmiti-detail-ui .zmiti-detail-content .zmiti-detail-wrap {
+  color: #b17936;
+  height: 140px;
+  overflow: hidden;
+  margin: 30px 0;
+}
+
+.zmiti-main-ui .zmiti-detail-ui .zmiti-detail-content .zmiti-detail-bottom {
+  height: 130px;
+  background: #b17936;
+  width: 100%;
+  display: -webkit-box;
+  -webkit-box-align: center;
+  -webkit-box-pack: center;
+  -webkit-box-orient: horizontal;
+  -webkit-box-pack: justify;
+  padding: 0 40px;
+  box-sizing: border-box;
 }
 
 .zmiti-main-ui .zmiti-detail-ui .zmiti-detail-close {
@@ -97,12 +144,35 @@
 .zmiti-main-ui .zmiti-box-ui .zmiti-box-C, .zmiti-main-ui .zmiti-box-ui .zmiti-cloud-ui, .zmiti-main-ui .zmiti-translateZ .zmiti-box-C, .zmiti-main-ui .zmiti-translateZ .zmiti-cloud-ui {
   -webkit-transform-style: preserve-3d;
   transform-style: preserve-3d;
-  width: 238px;
+  width: 200px;
   height: 1206px;
   position: absolute;
   left: 50%;
   top: 50%;
   margin: -603px 0 0 -130px;
+}
+
+.zmiti-main-ui .zmiti-box-ui .zmiti-cloud-ui, .zmiti-main-ui .zmiti-translateZ .zmiti-cloud-ui {
+  display: none;
+}
+
+.zmiti-main-ui .zmiti-box-ui .zmiti-box-C, .zmiti-main-ui .zmiti-translateZ .zmiti-box-C {
+  z-index: -99;
+}
+
+.zmiti-main-ui .zmiti-box-ui .zmiti-box-C.layer1, .zmiti-main-ui .zmiti-translateZ .zmiti-box-C.layer1 {
+  z-index: 100;
+}
+
+.zmiti-main-ui .zmiti-box-ui .zmiti-box-C.layer2, .zmiti-main-ui .zmiti-translateZ .zmiti-box-C.layer2 {
+  z-index: -99;
+  background: red;
+  width: 0;
+}
+
+.zmiti-main-ui .zmiti-box-ui .zmiti-box-C.layer3, .zmiti-main-ui .zmiti-translateZ .zmiti-box-C.layer3 {
+  z-index: -98;
+  width: 0;
 }
 
 .zmiti-main-ui .zmiti-box-ui .zmiti-cloud-item, .zmiti-main-ui .zmiti-translateZ .zmiti-cloud-item {
@@ -127,6 +197,7 @@
   width: 30px;
   height: 30px;
   border-radius: 50%;
+  z-index: 1000;
   background: #2d81f6;
 }
 

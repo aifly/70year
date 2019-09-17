@@ -2,28 +2,27 @@
 	<transition name='main'><!--url("+imgs.bg+") no-repeat center-->
 		<div class="zmiti-main-ui" :style='{height:viewH+"px",background:"#eee",backgroundSize:"cover"}' :class="{'show':show}">
 			<div class="zmiti-view" :style="{perspective:perspective+'px'}">
-				<div class="zmiti-box-ui" ref='boxui'>
+				<div class="zmiti-box-ui" ref='boxui' v-tap='[layer1Click]'>
 					<div class="zmiti-translateZ" ref='toZ' @touchstart='touchstart' @touchmove='touchmove' @touchend='touchend'>
 						<div class="zmiti-box-C" ref='box' :class='{"active":rotateBox}'>
-							 
 							<div  :style="item.style"  ref='item' class="zmiti-box-item" v-for="(item,i) in bgImgs" :key='i'>
-								<div v-tap=[showDetail,item] v-if="item.dom && false" class='zmiti-item-dom' :style="item.dom.style||{}">
-									<span v-if='false' v-html='item.dom.title'></span>
-								</div>
 							</div>				 
 						</div>
-						<div class="zmiti-box-C" ref='layer1'>
-							<div  :style="item.style" class="zmiti-box-item layer1" v-for="(item,k) in layer1" :key='k*100+30'>
-								
-							</div>
-						</div>
-						<div class="zmiti-box-C" ref='layer2'>
+						<div class="zmiti-box-C layer2" ref='layer2'>
 							<div  :style="item.style" class="zmiti-box-item layer2" v-for="(item,k) in layer2" :key='k*34+22'>
 							</div>
 						</div>
 
-						<div class="zmiti-box-C" ref='layer3'>
+						<div class="zmiti-box-C layer3" ref='layer3'>
 							<div  :style="item.style" class="zmiti-box-item layer3" v-for="(item,k) in layer3" :key='k*43+25'>
+							</div>
+						</div>
+
+						<div class="zmiti-box-C layer1" ref='layer1' >
+							<div  :style="item.style" class="zmiti-box-item " v-for="(item,k) in layer1" :key='k*100+30'>
+								<div v-tap=[showDetail,item] v-if="item.dom " class='zmiti-item-dom' :style="item.dom.style||{}">
+									<span v-if='false' v-html='item.dom.title'></span>
+								</div>
 							</div>
 						</div>
 
@@ -37,6 +36,25 @@
 			</div>
 			<div class='zmiti-detail-ui lt-full' v-if='currentObj.style'>
 				<span class='zmiti-detail-close' v-tap='[closeDetail]'>&times;</span>
+				<div class='zmiti-detail-content'>
+					<img :src="imgs.detail" alt="">
+					<div class='zmiti-detail-img'>
+						<div class='zmiti-year-img'>
+							<img :src="currentObj.img" alt="">
+						</div>
+						<div class='zmiti-detail-wrap'>
+							{{currentObj.content}}
+						</div>
+						<div class='zmiti-detail-bottom'>
+							<div>
+								<img :src="imgs.play" alt="">
+							</div>
+							<div>
+								<img :src="imgs.audio" alt="">
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</transition>
@@ -91,17 +109,19 @@ import { clearInterval } from 'timers';
 
 		},
 		methods: {
+			layer1Click(){
+			},
 			createLayer(angle,Z1,Z2,Z3){
 				///zmitiUtil.css(this.$refs['layer1'],)
 				this.layer1.forEach((item,i)=>{
-				item.style = {
-					width:'185px',
-					height:'1116px',
-					background:'url('+item.img+') no-repeat center center',
-					backgroundSize:'cover',
-					transform:"rotateY("+-angle*i+"deg) translateZ("+-Z1+"px)",
-				}
-			});
+					item.style = {
+						width:'185px',
+						height:'1116px',
+						background:'url('+item.img+') no-repeat center center',
+						backgroundSize:'cover',
+						transform:"rotateY("+-angle*i+"deg) translateZ("+-Z1+"px)",
+					}
+				});
 
 			this.layer2.forEach((item,i)=>{
 				item.style = {
@@ -130,6 +150,7 @@ import { clearInterval } from 'timers';
 				this.currentObj = item.dom;
 			},
   			touchstart(e){
+				clearTimeout(this.touchTimer);
   				this.isTouch = true;
   				if(!this.isTouch){
   					return;
@@ -140,7 +161,8 @@ import { clearInterval } from 'timers';
   				this.startRotateY = zmitiAnimate.css(this.$refs['box'],'rotateY');
   				this.startRotateLayer1 = zmitiAnimate.css(this.$refs['layer1'],'rotateY');
   				this.startRotateLayer2 = zmitiAnimate.css(this.$refs['layer2'],'rotateY');
-  				this.startRotateLayer3 = zmitiAnimate.css(this.$refs['layer3'],'rotateY');
+				  this.startRotateLayer3 = zmitiAnimate.css(this.$refs['layer3'],'rotateY');
+				  
 				
   				this.startX = e.changedTouches[0].pageX;
   				this.startY = e.changedTouches[0].pageY;
@@ -155,26 +177,25 @@ import { clearInterval } from 'timers';
 				this.startZ = zmitiAnimate.css(this.$refs['toZ'],'translateZ');
   			},
   			touchmove(e){
-  				if(!this.rotateStop){
+  				if(!this.rotateStop ){
   					return;
   				}
   				if(this.isStarting ){
   					var endX = e.changedTouches[0].pageX;
   					var endY = e.changedTouches[0].pageY;
   					
-  					var angleY = (endX - this.startX)/this.viewW * 60;
+  					var angleY = (endX - this.startX)/this.viewW * 30;
 					this.angleY = angleY;
 
 					var angle1  =(endX - this.startX)/this.viewW * 120;
-					var angle2  =(endX - this.startX)/this.viewW * 100;
-					var angle3  =(endX - this.startX)/this.viewW * 80;
+					var angle2  =(endX - this.startX)/this.viewW * 80;
+					var angle3  =(endX - this.startX)/this.viewW * 40;
 					
 					zmitiAnimate.css(this.$refs['box'],'rotateY',this.startRotateY-angleY);
 					zmitiAnimate.css(this.$refs['layer1'],'rotateY',(this.startRotateLayer1-angle1));
 					zmitiAnimate.css(this.$refs['layer2'],'rotateY',(this.startRotateLayer2-angle2));
 					zmitiAnimate.css(this.$refs['layer3'],'rotateY',(this.startRotateLayer3-angle3));
 
-					return;
 					var angleX = (endY - this.startY)/this.viewH * 100;
 					  this.angleX = angleX;
 					  if(angleX - this.startRotateX>0){
@@ -186,7 +207,7 @@ import { clearInterval } from 'timers';
 
 					 
 
-					 return;
+				
 
   					//zmitiAnimate.css(this.$refs['box'],'rotateX',x);
 
@@ -207,13 +228,14 @@ import { clearInterval } from 'timers';
 
   				if(!this.isTouch){
   					return;
-  				}
+				  }
+				  
   				 
   				if(!this.rotateStop ||this.lastSpeed === 0||Date.now()-this.lastTime>=40){
 					 
   					setTimeout(()=>{
   						this.isStart = false;
-  					},330);
+					  },330);
   					return;
   				}
 
@@ -227,7 +249,6 @@ import { clearInterval } from 'timers';
 
 				var dis = (this.lastSpeed)/this.viewW * 120;
 
-				 
 
 				zmitiAnimate.mTween.stop(this.$refs['box']);
 				zmitiAnimate.mTween.stop(this.$refs['layer1']);
@@ -237,39 +258,70 @@ import { clearInterval } from 'timers';
 					el:this.$refs['box'],
 					attrs:{
 						rotateY:zmitiAnimate.css(this.$refs['box'],'rotateY') - dis,
-						rotateX:0
 					},
 					duration:{
 						multiple:2,
-						min:200,
-						max:1500
+						min:300,
+						max:1000
 					},
-					fx:'easeOutStrong',
+					//fx:'easeOutStrong',
 					cb:()=>{
-						this.isTouch = false;
-						this.isStart = true;
+						
+						this.touchTimer = setTimeout(() => {
+							this.isTouch = false;
+							this.isStart = true;
+						}, 1200);
 						//zmitiAnimate.css(this.$refs['box'],'rotateX',0);
 					}
 				})
 
 
-				return
-
 				zmitiAnimate.mTween({
 					el:this.$refs['layer1'],
 					attrs:{
 						rotateY:zmitiAnimate.css(this.$refs['layer1'],'rotateY') - dis,
-						rotateX:0
 					},
 					duration:{
 						multiple:2,
-						min:200,
-						max:1500
+						min:300,
+						max:1000
 					},
-					fx:'easeOutStrong',
+					//fx:'easeOutStrong',
 					cb:()=>{
-						this.isTouch = false;
-						this.isStart = true;
+					
+						//zmitiAnimate.css(this.$refs['box'],'rotateX',0);
+					}
+				})
+
+
+				zmitiAnimate.mTween({
+					el:this.$refs['layer2'],
+					attrs:{
+						rotateY:zmitiAnimate.css(this.$refs['layer2'],'rotateY') - dis,
+					},
+					duration:{
+						multiple:2,
+						min:300,
+						max:1000
+					},
+					//fx:'easeOutStrong',
+					cb:()=>{
+						//zmitiAnimate.css(this.$refs['box'],'rotateX',0);
+					}
+				})
+
+				zmitiAnimate.mTween({
+					el:this.$refs['layer3'],
+					attrs:{
+						rotateY:zmitiAnimate.css(this.$refs['layer3'],'rotateY') - dis,
+					},
+					duration:{
+						multiple:2,
+						min:300,
+						max:1000
+					},
+					//fx:'easeOutStrong',
+					cb:()=>{
 						//zmitiAnimate.css(this.$refs['box'],'rotateX',0);
 					}
 				})
@@ -280,9 +332,11 @@ import { clearInterval } from 'timers';
   			},
   			bindEvent(){
   				window.addEventListener('deviceorientation',(e)=>{
-  					if(this.isTouch){
-  						return;
-  					}
+					  if( this.isTouch ){
+						  document.title = 'stop';
+						  return;
+					}
+					document.title = e.alpha;
   					var box = this.$refs['box'];
   					var layer1 = this.$refs['layer1'];
   					var layer2 = this.$refs['layer2'];
@@ -312,6 +366,8 @@ import { clearInterval } from 'timers';
 	
 		mounted() {
 
+			//this.currentObj = this.layer1[0].dom;
+
 			
 			this.showClound = true;
 			var angle = 360 / this.bgImgs.length;
@@ -320,6 +376,7 @@ import { clearInterval } from 'timers';
 			var Z1 = Math.tan(Math.PI/180*(180-angle)/2)*185/2;
 			var Z2 = Math.tan(Math.PI/180*(180-angle)/2)*190/2;
 			var Z3 = Math.tan(Math.PI/180*(180-angle)/2)*195/2;
+
 			this.bgImgs.forEach((item,i)=>{
 				item.style = {
 					width:'200px',
