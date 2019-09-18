@@ -42,47 +42,64 @@
   perspective: 800px;
 }
 
-.zmiti-laoding-view {
-  -webkit-transform: scale(0);
-  transform: scale(0);
-  -webkit-transition: 3s 0.1s;
-  transition: 3s 0.1s;
-}
-
-.zmiti-laoding-view.active {
-  -webkit-transform: scale(1);
-  transform: scale(1);
-}
-
-.zmiti-loading-icons {
-  width: 100%;
-  height: 100%;
-  z-index: 1400;
+.zmiti-img70 {
   position: absolute;
-  left: 0%;
-  top: 0%;
-  transform-style: preserve-3d;
-  -webkit-animation: rotate 1s linear infinite;
-  animation: rotate 1s linear infinite;
+  margin: 40px;
 }
 
-.zmiti-loading-icons span {
+.zmiti-img-text {
   position: absolute;
+  right: 40px;
+  top: 120px;
+}
+
+.zmiti-img-title {
+  position: absolute;
+  width: 500px;
   left: 50%;
   top: 50%;
-  -webkit-transition: 0.1s;
-  transition: 0.1s;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 
-.zmiti-loading-icons span img {
+.zmiti-loading-progress {
+  position: absolute;
+  width: 90%;
+  left: 5%;
+  bottom: 80px;
+  background: #bc6534;
+  height: 40px;
+  border-radius: 20px;
+  box-shadow: 0 0 20px #a14f21 inset;
+  overflow: hidden;
+}
+
+.zmiti-loading-progress.active::before {
+  display: none;
+}
+
+.zmiti-loading-progress .zmiti-progress {
+  position: absolute;
+  width: 99%;
+  height: 36px;
+  top: 2px;
+  left: 4px;
+  -webkit-transform-origin: left;
+  transform-origin: left;
+  border-radius: 20px;
+  -webkit-transform: scale(0, 1);
+  transform: scale(0, 1);
+  background: -webkit-linear-gradient(top, #fffdc5, #fdf48f, #fffdc5);
+}
+
+.zmiti-prec {
+  position: absolute;
+  bottom: 130px;
+  font-weight: bold;
+  text-align: center;
   width: 100%;
-  opacity: 0;
-}
-
-@keyframes rotate {
-  to {
-    transform: rotateY(360deg);
-  }
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 36px;
 }
 
 .zmiti-loading-ui {

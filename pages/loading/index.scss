@@ -4,46 +4,70 @@
         z-index: 1200;
 		background:#fff;
 		perspective: 800px;
-
+		
 	}
-	.zmiti-laoding-view{
-		@include transform(scale(0));
-		@include transition(3s .1s);
-		&.active{
-			@include transform(scale(1));
-		}
-	}
-	.zmiti-loading-icons{
-		width:100%;
-		height: 100%;
-		z-index: 1400;;
+	
+	.zmiti-img70{
 		@include pos(a);
-		left:0%;
-		top: 0%;
-		transform-style: preserve-3d;
 
+		margin: 40px;
+	}
+	.zmiti-img-text{
+		@include pos(a);
+		right: 40px;
+		top: 120px;
 		
-		
-		@include animation(rotate 1s linear infinite);
-		span{
-			@include pos(a);
-			left: 50%;
-			top: 50%;
-			@include transition(.1s);
-			img{
-				
-				width: 100%;
-				opacity:0;
+	}
+	.zmiti-img-title{
+		@include pos(a);
+		width: 500px;
+		left: 50%;
+		top: 50%;
+		@include transform(translate(-50%,-50%));
+	}
+
+	.zmiti-loading-progress{
+		@include pos(a);
+		width: 90%;
+		left: 5%;
+		bottom:80px;
+		background: #bc6534;
+		height: 40px;
+		@include br(20px);
+		box-shadow:0 0 20px rgba(161,79,33,1) inset; 
+		overflow: hidden;
+
+		&.active{
+			&::before{
+				display: none;
 			}
 		}
-	}
+		
+		
 
-	@keyframes rotate{
-		to{
-			transform:rotateY(360deg);
+		.zmiti-progress{
+			@include pos(a);
+			width: 99%;
+			height: 36px;
+			top: 2px;
+			left:4px;
+			@include transformOrigin(left);
+			@include br(20px);
+			@include transform(scale(0,1));
+			background:-webkit-linear-gradient(top,#fffdc5,#fdf48f,#fffdc5);
+			
 		}
 	}
 
+	.zmiti-prec{
+		@include pos(a);
+		bottom: 130px;
+		font-weight: bold;
+		text-align: center;
+		width: 100%;
+		font-family: Georgia, 'Times New Roman', Times, serif;
+		font-size:36px;
+	}
   
    .zmiti-loading-ui{
         width: 420px;

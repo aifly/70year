@@ -120,7 +120,6 @@
 
 
 			var play = function() {
-				return;
 				document.removeEventListener("WeixinJSBridgeReady", play);
 				document.removeEventListener("YixinJSBridgeReady", play);
 				s.playAudioMuted();

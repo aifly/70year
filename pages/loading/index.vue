@@ -1,24 +1,31 @@
 <template>
 	<transition name='loading'>
-		<section v-if='show' class="lt-full zmiti-loading1" >
-			
-			<div class='zmiti-laoding-view lt-full' :class="{'active':beginLoading}">
+		<section v-if='show' class="lt-full zmiti-loading1" :style="{background:'url('+imgs.loading+') no-repeat center bottom',backgroundSize:'cover'}" >
+			 
+			 <div class='zmiti-img70'>
+				 <img :src="imgs.year70" alt="">
+			 </div>
 
-				<div class="zmiti-loading-icons">		
-					<span v-for="(icon,i) in boxImgs" :key="i"
-						:style="icon[scale?'style':'style']"
-					>
-						<img :src="icon.img" alt="">
-					</span>
-				</div>
-			</div>
+			 <div class='zmiti-img-text'>
+				 <img :src="imgs.text" alt="">
+			 </div>
+
+			 <div class="zmiti-img-title">
+				 <img :src="imgs.title" alt="">
+			 </div>
+
+			 <div class='zmiti-loading-progress' >
+				 <div class='zmiti-progress' :style="{transform:'scale('+width+',1)'}"></div>
+				 
+			 </div>
+			 <div class='zmiti-prec'> 加载中，请稍后...{{parseInt(width*100)}}% </div>
 
 			<div class='zmiti-loading-ui' v-if='!loaded && showLoading && false'>
 				<div class='zmiti-loading-C'>
 					<div class='zmiti-loading-bar '  :style="{webkitTransform:'scale('+(width)+',1)'}">  </div>
 				</div>
 				<div class='zmiti-progress'>
-					{{parseInt(width*100)}}%
+				
 				</div>
 			</div>
 			

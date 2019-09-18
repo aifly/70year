@@ -1,6 +1,6 @@
 import Vue from "vue";
 import './pages/css/index.css';
-import Index from './pages/index/index';
+import Music from './pages/music/index';
 import Main from './pages/main/index';
 //import Main1 from './pages/main1/index';
 import Loading from './pages/loading/index';
@@ -19,7 +19,6 @@ Vue.use(VueTouch, {name: 'v-touch'})*/
 
 
 var obserable = new Obserable();
-
 
 //Vue.config.productionTip = false
 
@@ -55,6 +54,7 @@ new Vue({
 		
 		*/
 		template: `<div id='app1'>
+		<Music :obserable='obserable'></Music>
 		<Loading v-if='!show' :width='width' :obserable='obserable'></Loading>
 		<Main :pv='pv' :nickname='nickname' :headimgurl='headimgurl'  v-if='show && !isShare'  :obserable='obserable'></Main>
 	</div>`,
@@ -94,7 +94,7 @@ new Vue({
 		}
 	},
 	components: {
-		Index,
+		Music,
 		Loading,
 		Main,
 		
@@ -127,9 +127,6 @@ new Vue({
 			s.width = scale;
 
 		}, () => {
-
-
-
 			obserable.trigger({
 				type:'hideloading'
 			});
