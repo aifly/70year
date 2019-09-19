@@ -1,6 +1,6 @@
 <template>
 	<transition name='main'><!--url("+imgs.bg+") no-repeat center-->
-		<div class="zmiti-main-ui" :style='{height:viewH+"px",background:"url("+imgs.main+") no-repeat center",backgroundSize:"cover"}' :class="{'show':show,'active':currentObj.style}">
+		<div class="zmiti-main-ui" :style='{height:viewH+"px",background:"url("+imgs.main+") no-repeat center bottom",backgroundSize:"cover"}' :class="{'show':show,'active':currentObj.style}">
 			<div class="zmiti-view" :style="{perspective:perspective+'px'}">
 				<div class="zmiti-box-ui" ref='boxui' v-tap='[layer1Click]'>
 					<div class="zmiti-translateZ" ref='toZ' @touchstart='touchstart' @touchmove='touchmove' @touchend='touchend'>
@@ -27,7 +27,7 @@
 
 						
 
-						<div class='zmiti-cloud-ui lt-full' ref='cloud' v-if='showClound' v-show='false'>
+						<div class='zmiti-cloud-ui lt-full' ref='cloud' v-if='showClound' >
 							<div class='zmiti-cloud-item' :style="cloud.style" v-for='(cloud,i) in clouds' :key="i">
 								<img :style="cloud.imgStyle||{}"  :src="cloud.img" alt="">
 							</div>
@@ -44,7 +44,8 @@
 				<img :src="imgs.text" alt="">
 			</div>
 			<section class='zmiti-detail-page lt-full'  v-if='currentObj.style'>
-				<div class='zmiti-detail-ui lt-full'>
+				<div>
+					<div class='zmiti-detail-ui lt-full'>
 					<div class='zmiti-detail-content'>
 						<span class='zmiti-detail-close' v-tap='[closeDetail]'></span>
 						<img :src="imgs.detail" alt="">
@@ -60,7 +61,7 @@
 							<div class='zmiti-detail-bottom'>
 								<div v-tap='[toggleAudio]'>
 									<img :src="imgs[isPlaying?'play2':'pause']" alt="">
-									<audio ref='audio' :src='currentObj.audio' ></audio>
+									<audio ref='audio' loop :src='currentObj.audio' ></audio>
 								</div>
 								<div>
 									<img :src="imgs[isPlaying?'audio':'audio1']" alt="">
@@ -68,6 +69,11 @@
 							</div>
 						</div>
 					</div>
+				</div>
+				<div class='zmiti-detail-back lt-full'>
+					<div >
+					</div>
+				</div>
 				</div>
 			</section>
 
@@ -456,9 +462,11 @@
 		},
 	
 		mounted() { 
+			//
+			//this.currentObj = this.layer1[0].dom;
 
-			///this.currentObj = this.layer1[0].dom;
-			
+			this.showClound = true;
+			////
 			var angle = 360 / this.bgImgs.length;
 			
 			var Z = Math.tan(Math.PI/180*(180-angle)/2)*200/2;
@@ -479,6 +487,17 @@
 
 			this.createLayer(angle,Z1,Z2,Z3);
 
+
+			console.log(Z)
+
+			this.clouds.forEach((item,i,arr)=>{
+				item.rotateY = (360/arr.length)*i;
+				item.style = {
+					transform: 'translate3d('+(Math.random() * Z  * (Math.random() > .5 ? 2 : -1)) +'px,' +  (Math.random() * Z * (Math.random() > .5 ? 1 : -1))  + 'px,' + Z * (Math.random() > .5 ? 1 : -1) + 'px) rotateY(' + item.rotateY  + 'deg) ',
+					// background: 'url(' + "./assets/images/loading/loadIco" + (i % 9 + 1) + ".png" + ') no-repeat center',
+					}
+			})
+
 			
 
 			var perspective = Math.tan(Math.PI/180*50)* this.viewH /2*2 ;
@@ -486,7 +505,7 @@
 			 
 
 		
-			zmitiAnimate.css(this.$refs['boxui'],"translateZ",perspective);
+			zmitiAnimate.css(this.$refs['boxui'],"translateZ",-4400);
 			this.bgImgs = this.bgImgs.concat([]);
 			this.domLayer1 = this.$refs['layer1'];
 			this.domLayer2 = this.$refs['layer2'];
@@ -498,6 +517,9 @@
 			zmitiAnimate.css(this.domLayer1,'rotateY',0);
 			zmitiAnimate.css(this.domLayer2,'rotateY',0);
 			zmitiAnimate.css(this.domLayer3,'rotateY',0);
+
+			zmitiAnimate.css(this.$refs['cloud'],'rotateY',0);
+			zmitiAnimate.css(this.$refs['cloud'],'translateX',0);
 	/* 		[...this.$refs['cloud'].querySelectorAll('img')].forEach(item=>{
 				zmitiAnimate.css(item,'rotateY',0);
 			}) */
@@ -506,14 +528,47 @@
 
 
 			setTimeout(()=>{
+
+				var cloud = this.$refs['cloud'];
+				zmitiAnimate.mTween({
+					el:cloud,
+					attrs:{
+						'rotateY':1080,
+						'translateX':1000
+					},
+					duration:4000,
+					cb:()=>{
+						this.showClound = false;
+						
+					},
+					update:(val,key)=>{
+						
+						[...this.$refs['cloud'].querySelectorAll('img')].forEach((item,i)=>{
+							zmitiAnimate.css(item,'rotateY',(val-this.clouds[i].rotateY));
+						})
+					}
+				});
+
+
+				zmitiAnimate.mTween({
+					el:this.$refs['boxui'],
+					attrs:{
+						translateZ:perspective
+					},
+					duration:3000,
+					cb:()=>{
+						
+						
+					}
+				});
 				
 
 				zmitiAnimate.mTween({
 					el:this.domBox,
 					attrs:{
-						'rotateY':360
+						'rotateY':720
 					},
-					duration:2000,
+					duration:4000,
 					cb:()=>{
 						this.rotateStop = true;
 						this.bindEvent();
@@ -527,7 +582,7 @@
 					attrs:{
 						'rotateY':720
 					},
-					duration:2000,
+					duration:4000,
 					cb:()=>{
 					}
 				});
@@ -535,7 +590,7 @@
 				zmitiAnimate.mTween({
 					el:this.domLayer2,
 					attrs:{
-						'rotateY':360
+						'rotateY':680
 					},
 					duration:2000,
 					cb:()=>{
@@ -544,7 +599,7 @@
 				zmitiAnimate.mTween({
 					el:this.domLayer3,
 					attrs:{
-						'rotateY':360
+						'rotateY':680
 					},
 					duration:2000,
 					cb:()=>{

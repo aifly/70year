@@ -6,7 +6,6 @@ $bgColor: #fcfff8;
 $color: #fffb88;
 
 body{
-	font-size:0;
 }
 img{
 	border:0;
@@ -19,20 +18,13 @@ img{
     &.main-leave-active {
         @include transition(.4s);
     }
-	perspective:0;
 	@include transition(.2s);
 
-	&.active{
-		//perspective: 700px;
-	}
-
+	
     &.main-leave-to,
     &.main-enter {
         opacity: 0;
     }
-
-
-	
 
 
     width: $viewW !important;
@@ -76,11 +68,26 @@ img{
 	}
 	.zmiti-detail-page{
 		z-index: 1002;
+		
+		//@include transition(.3s);
+		perspective: 900px;
+		&>div{
+			transform-style: preserve-3d;
+			//transform: rotateY(180deg);
+			height: 100%;
+			@include transition(.4s);
+		}
+	}
+	.zmiti-detail-back {
+		background: #ccc;
+		z-index: 10;
+		@include transform( translateZ(1px) rotateY(180deg));
+		//backface-visibility: hidden;
 	}
     .zmiti-detail-ui{
 		background: rgba(0,0,0,.5);
 		@include displayBox(horizontal);
-		width: 101vw;
+		width: 100vw;
 		height: 100%;
 		@include transform(translateZ(1px));
 
@@ -191,7 +198,16 @@ img{
             }
 		}
 		.zmiti-cloud-ui{
-			display:none;
+		//	display:none;
+			width: 200px;
+			.zmiti-cloud-item{
+				width: 300px;
+				transform-style: preserve-3d;
+				
+				img{
+					width: 300px;
+				}
+			}
 		}
 		.zmiti-box-C{
 			z-index: 0;

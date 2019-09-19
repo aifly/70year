@@ -36,16 +36,11 @@
   }
 }
 
-body {
-  font-size: 0;
-}
-
 img {
   border: 0;
 }
 
 .zmiti-main-ui {
-  perspective: 0;
   -webkit-transition: 0.2s;
   transition: 0.2s;
   width: 750px !important;
@@ -96,6 +91,21 @@ img {
 
 .zmiti-main-ui .zmiti-detail-page {
   z-index: 1002;
+  perspective: 900px;
+}
+
+.zmiti-main-ui .zmiti-detail-page > div {
+  transform-style: preserve-3d;
+  height: 100%;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.zmiti-main-ui .zmiti-detail-back {
+  background: #ccc;
+  z-index: 10;
+  -webkit-transform: translateZ(1px) rotateY(180deg);
+  transform: translateZ(1px) rotateY(180deg);
 }
 
 .zmiti-main-ui .zmiti-detail-ui {
@@ -104,7 +114,7 @@ img {
   -webkit-box-align: center;
   -webkit-box-pack: center;
   -webkit-box-orient: horizontal;
-  width: 101vw;
+  width: 100vw;
   height: 100%;
   -webkit-transform: translateZ(1px);
   transform: translateZ(1px);
@@ -217,7 +227,16 @@ img {
 }
 
 .zmiti-main-ui .zmiti-box-ui .zmiti-cloud-ui, .zmiti-main-ui .zmiti-translateZ .zmiti-cloud-ui {
-  display: none;
+  width: 200px;
+}
+
+.zmiti-main-ui .zmiti-box-ui .zmiti-cloud-ui .zmiti-cloud-item, .zmiti-main-ui .zmiti-translateZ .zmiti-cloud-ui .zmiti-cloud-item {
+  width: 300px;
+  transform-style: preserve-3d;
+}
+
+.zmiti-main-ui .zmiti-box-ui .zmiti-cloud-ui .zmiti-cloud-item img, .zmiti-main-ui .zmiti-translateZ .zmiti-cloud-ui .zmiti-cloud-item img {
+  width: 300px;
 }
 
 .zmiti-main-ui .zmiti-box-ui .zmiti-box-C, .zmiti-main-ui .zmiti-translateZ .zmiti-box-C {
