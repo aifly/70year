@@ -43,37 +43,107 @@
 			<div class='zmiti-text'>
 				<img :src="imgs.text" alt="">
 			</div>
+			<div class='zmiti-share-page lt-full' v-if='showSharePage'>
+				 <div class='zmiti-share-img'>
+					 <img :src="currentObj.poster" alt="">
+				 </div>
+				 <div class='zmiti-share-btns'>
+					 <div class='' v-press v-tap='[shareAction,"share"]'>
+						 <img :src="imgs.share" alt="">
+					 </div>
+					 <div v-press v-tap='[shareAction,"back"]'>
+						 <img :src="imgs.back" alt="">
+					 </div>
+				 </div>
+
+				 <div class='zmiti-mask lt-full' style='color:#fff;' v-if='showMask' @touchstart='showMask = false;'>
+					 <span style='margin:10px 20px 0 0 ;display:inline-block;'>点击右上角分享给好友</span>
+				 </div>
+			</div>
 			<section class='zmiti-detail-page lt-full'  v-if='currentObj.style'>
-				<div>
-					<div class='zmiti-detail-ui lt-full'>
+				<div class='zmiti-detail-ui lt-full'>
 					<div class='zmiti-detail-content'>
 						<span class='zmiti-detail-close' v-tap='[closeDetail]'></span>
-						<img :src="imgs.detail" alt="">
-						<div class='zmiti-detail-img'>
-							<div class='zmiti-year-img'>
-								<img :src="currentObj.img" alt="">
-							</div>
-							<div class='zmiti-detail-wrap' ref='wrap'>
-								<div>
-									{{currentObj.content}}
+						<div :class="{'active':showBackPage}">
+							<div>
+								<img :src="imgs.detail" alt="">
+								<div class='zmiti-detail-img'>
+									<div class='zmiti-year-img'>
+										<img :src="currentObj.img" alt="">
+									</div>
+									<div class='zmiti-detail-bottom'>
+										<ZmitiAudio :show='!showBackPage' :audio='audio' :obserable='obserable' :src='currentObj.audio'></ZmitiAudio>
+									</div>
+									<div class='zmiti-detail-wrap' ref='wrap'>
+										<div>
+											{{currentObj.content}}
+										</div>
+									</div>
+									<div class='zmiti-detail-intro'>
+										<div>
+											<img :src="currentObj.headimg" alt="">
+										</div>
+										<div v-html='currentObj.nickname'>
+											
+										</div>
+									</div>
+									<div class='zmiti-detail-btns'>
+										<div v-press v-tap='[flipPage,"photo"]'>
+											<img :src="imgs.photo" alt="">
+										</div>
+										<div v-press v-tap='[flipPage,"intro"]'>
+											<img :src="imgs.intro" alt="">
+										</div>
+
+									</div>
 								</div>
 							</div>
-							<div class='zmiti-detail-bottom'>
-								<div v-tap='[toggleAudio]'>
-									<img :src="imgs[isPlaying?'play2':'pause']" alt="">
-									<audio ref='audio' loop :src='currentObj.audio' ></audio>
-								</div>
-								<div>
-									<img :src="imgs[isPlaying?'audio':'audio1']" alt="">
+							<div class='zmiti-detail-back lt-full'>
+								<img :src="imgs.detail" alt="">
+								<div class='zmiti-detail-img'>
+									<div class='zmiti-year-img'>
+										<img :src="currentObj.headimg1" alt="" class='zmiti-back-headimg'>
+										<div class='zmiti-detail-intro'>
+											<img :src="imgs.intro1" alt="">
+										</div>
+									</div>
+									<div class='zmiti-detail-bottom'>
+										<div class='zmiti-audio-main-ui'>
+											<div class='zmiti-audio-icon'>
+												<img :src="imgs.play2" alt="">
+											</div>
+											<div class='zmiti-audio-canvas'>
+												<canvas width="400" height="50" ref='canvas'></canvas>
+											</div>
+										</div>
+									</div>
+								
+									<div class='zmiti-detail-intro'>
+										<div>
+											{{currentObj.nickname.replace(/<[^>]+>|&[^>]+;/g,"").trim()}}
+										</div>
+									</div>
+									<div class='zmiti-detail-wrap' ref='wrap1' >
+										<div v-html='currentObj.introduce'>
+											
+										</div>
+									</div>
+									<div class='zmiti-detail-btns'>
+										<div v-press v-tap='[flipPage,"photo"]'>
+											<img :src="imgs.photo" alt="">
+										</div>
+										<div v-press v-tap='[flipPage,"refresh"]'>
+											<img :src="imgs.refresh" alt="">
+										</div>
+
+									</div>
 								</div>
 							</div>
 						</div>
+						
+
+						
 					</div>
-				</div>
-				<div class='zmiti-detail-back lt-full'>
-					<div >
-					</div>
-				</div>
 				</div>
 			</section>
 
@@ -90,6 +160,7 @@
 	import Vue from 'vue';
 	import zmitiAnimate from '../lib/mTween';
 	import ISroll from 'iscroll';
+	import ZmitiAudio  from './audio';
 	export default {
 		props: ['obserable', 'pv', 'randomPv', 'nickname', 'headimgurl'],
 	
@@ -103,14 +174,18 @@
 				layer2:window.layer2,
 				layer3:window.layer3,
 
+				showBackPage:false,
+
 				clouds:window.clouds,
 				imgs:window.imgs,
 				viewW:Math.min( window.innerWidth,750),
+				showMask:false,
 				viewH: window.innerHeight,
 				rotateBox:false,
 				rotateStop:false,
 				perspective:2000,
 				lastPoint:0,
+				audio:new Audio(),
 				lastTime:0,
 				lastSpeed:0,
 				isTouch:false,//是否触摸屏幕,
@@ -118,6 +193,7 @@
 				startBoxDeg:0,
 				showClound:true,
 				isPlaying:false,
+				showSharePage:false,
 				currentObj:{
 
 				}
@@ -125,13 +201,42 @@
 		},
 	
 		components: {
-			Toast
+			Toast,
+			ZmitiAudio
 		},
 		watch:{
 
 		},
 		methods: {
+			shareAction(type){
+				switch (type) {
+					case 'back':
+						this.showSharePage = false;
+						this.closeDetail();
+						break;
+					case 'share':
+					this.showMask = true;
+					break;
+					default:
+						break;
+				}
+			},
 			layer1Click(){
+			},
+			flipPage(type){
+				switch (type) {
+					case 'intro':
+						this.showBackPage = true;
+						break;
+					case 'refresh':
+					this.showBackPage  = false;
+						break;
+					case 'photo':
+						this.showSharePage = true;
+					break
+					default:
+						break;
+				}
 			},
 			createLayer(angle,Z1,Z2,Z3){
 				///zmitiUtil.css(this.$refs['layer1'],)
@@ -165,6 +270,7 @@
 				});
 			},
 			toggleAudio(){
+				return;
 				let audio = this.$refs['audio'];
 				if(audio.paused){
 					audio.play();
@@ -187,6 +293,7 @@
 			closeDetail(){
 				this.currentObj = {};
 				this.isPlaying = false;
+				this.showBackPage = false;
 				this.obserable.trigger({
 					type:'toggleBgMusic',
 					data:true
@@ -195,12 +302,19 @@
 			showDetail(item){
 
 				this.currentObj = item.dom;
+				
 				this.$nextTick(()=>{
 					this.toggleAudio();
+					this.initCanvas();
 				})
 				setTimeout(() => {
 					this.scroll &&this.scroll.destroy();
 					this.scroll = new IScroll(this.$refs['wrap'],{
+						scrollbars:true
+					});
+
+					this.scroll1 &&this.scroll.destroy();
+					this.scroll1 = new IScroll(this.$refs['wrap1'],{
 						scrollbars:true
 					});
 				}, 100);
@@ -385,7 +499,25 @@
 						//zmitiAnimate.css(this.$refs['box'],'rotateX',0);
 					}
 				})
-  			},
+			  },
+			  initCanvas(){
+				  const margin =  10,startX = 4;
+				  var canvas = this.$refs['canvas'];
+
+				  var context = canvas.getContext('2d');
+				  var linear = context.createLinearGradient(0,0,margin,100);
+					linear.addColorStop(0,'#f4cc62')
+					linear.addColorStop(1,'#f00')
+					context.fillStyle = linear;
+				  
+				  var max = Math.max;
+				  this.obserable.on('dunce',data=>{
+					  context.clearRect(0,0,400,100);
+						for(var i = 0; i < 16;i++){
+							context.fillRect((startX+margin*2 )*i+margin,startX,10,max(data[i]/8,4));
+						}
+				  })
+			  },
   			bindEvent(){
 				  var s = this;
   				window.addEventListener('deviceorientation',(e)=>{
@@ -463,7 +595,11 @@
 	
 		mounted() { 
 			//
-			//this.currentObj = this.layer1[0].dom;
+
+
+			
+			
+			
 
 			this.showClound = true;
 			////
@@ -555,7 +691,7 @@
 					attrs:{
 						translateZ:perspective
 					},
-					duration:3000,
+					duration:4000,
 					cb:()=>{
 						
 						
@@ -592,7 +728,7 @@
 					attrs:{
 						'rotateY':680
 					},
-					duration:2000,
+					duration:4000,
 					cb:()=>{
 					}
 				});
@@ -601,7 +737,7 @@
 					attrs:{
 						'rotateY':680
 					},
-					duration:2000,
+					duration:4000,
 					cb:()=>{
 					}
 				});
@@ -610,4 +746,22 @@
 		}
 	
 	}
+
+
+Vue.directive('press', {
+    bind: function (el, binding) {
+        el.addEventListener('touchstart',(e)=>{
+            //el.classList.add(binding.value);
+            ///console.log(binding);
+            el.style.WebkitTransform = 'scale(.98) translateY(4px)';
+            el.style.transform = 'scale(.98) translateY(4px)';
+        });
+        el.addEventListener('touchend',e=>{
+            //el.classList.remove(binding.value);
+            el.style.WebkitTransform = 'scale(1) translateY(0)';
+            el.style.transform = 'scale(1) translateY(0)';
+        });
+    }
+});
+
 </script>

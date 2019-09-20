@@ -6,15 +6,19 @@
 				 <img :src="imgs.year70" alt="">
 			 </div>
 
-			 <div class='zmiti-img-text'>
-				 <img :src="imgs.text" alt="">
+			 <div class='zmiti-img-rocket'>
+				 <img :src="imgs.rocket" alt="">
 			 </div>
 
 			 <div class="zmiti-img-title">
 				 <img :src="imgs.title" alt="">
 			 </div>
 
-			 <div class='zmiti-loading-progress' >
+			 <div class='zmiti-loading-progress'>
+				<img :src="imgs['p'+(index+1)]" alt="">
+			 </div>
+
+			 <div class='zmiti-loading-progress' v-if='false' >
 				 <div class='zmiti-progress' :style="{transform:'scale('+width+',1)'}"></div>
 				 
 			 </div>
@@ -25,7 +29,7 @@
 					<div class='zmiti-loading-bar '  :style="{webkitTransform:'scale('+(width)+',1)'}">  </div>
 				</div>
 				<div class='zmiti-progress'>
-				
+					
 				</div>
 			</div>
 			
@@ -53,6 +57,7 @@
 				currentTime:'',
 				currentDate:"",
 				showLoading:true,
+				index:0
 			}
 		},
 		components:{
@@ -80,6 +85,12 @@
 		mounted(){
 
 
+			var t = setInterval(() => {
+				this.index++;
+				this.index%=7;
+				
+			}, 100);
+
 			
 
 			setTimeout(() => {
@@ -96,7 +107,7 @@
 			this.obserable.on('hideloading',()=>{
 				this.loaded = true;
 				this.showLoading = false;
-
+				clearInterval(t);
 				///
 
 
