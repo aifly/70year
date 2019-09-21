@@ -3,8 +3,9 @@
 		<div class='zmiti-audio-icon'>
 			<img :src="imgs.play2" alt="">
 		</div>
-		<div class='zmiti-audio-canvas'>
-			<canvas width="400" height="50" ref='canvas'></canvas>
+		<div class='zmiti-audio-canvas' style="text-align:center">
+			<canvas width="400" height="50" ref='canvas' v-show='false'></canvas>
+			<img style="width:80%;" :src="imgs.audio" alt="">
 		</div>
 	</div>
 </template>

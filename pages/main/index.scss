@@ -208,7 +208,7 @@ img{
 			.zmiti-detail-btns{
 				@include displayBox(horizontal);
 				width: 100%;
-				-webkit-box-pack: justify;
+			//	-webkit-box-pack: justify;
 				div{
 					margin: 0 30px;
 					height: 70px;

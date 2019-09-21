@@ -15,8 +15,8 @@
 	.zmiti-img-rocket{
 		@include pos(a);
 		left: 100px;
-		top:700px;
-		@include animation(fly 5s linear forwards);
+		top:600px;
+		//@include animation(fly 5s linear forwards);
 		img{
 			width:auto;
 			height:200px;
@@ -64,7 +64,7 @@
 	.zmiti-prec{
 		@include pos(a);
 		bottom: 100px;
-		font-weight: bold;
+		///∂ßßßßfont-weight: bold;
 		text-align: center;
 		width: 100%;
 		font-family: Georgia, 'Times New Roman', Times, serif;

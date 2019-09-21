@@ -27,7 +27,7 @@
 
 						
 
-						<div class='zmiti-cloud-ui lt-full' ref='cloud' v-if='showClound' >
+						<div class='zmiti-cloud-ui lt-full' ref='cloud' v-if='showClound' v-show="false" >
 							<div class='zmiti-cloud-item' :style="cloud.style" v-for='(cloud,i) in clouds' :key="i">
 								<img :style="cloud.imgStyle||{}"  :src="cloud.img" alt="">
 							</div>
@@ -74,11 +74,6 @@
 									<div class='zmiti-detail-bottom'>
 										<ZmitiAudio :show='!showBackPage' :audio='audio' :obserable='obserable' :src='currentObj.audio'></ZmitiAudio>
 									</div>
-									<div class='zmiti-detail-wrap' ref='wrap'>
-										<div>
-											{{currentObj.content}}
-										</div>
-									</div>
 									<div class='zmiti-detail-intro'>
 										<div>
 											<img :src="currentObj.headimg" alt="">
@@ -87,11 +82,17 @@
 											
 										</div>
 									</div>
+									<div class='zmiti-detail-wrap' ref='wrap'>
+										<div>
+											{{currentObj.content}}
+										</div>
+									</div>
+									
 									<div class='zmiti-detail-btns'>
 										<div v-press v-tap='[flipPage,"photo"]'>
 											<img :src="imgs.photo" alt="">
 										</div>
-										<div v-press v-tap='[flipPage,"intro"]'>
+										<div v-if='false' v-press v-tap='[flipPage,"intro"]'>
 											<img :src="imgs.intro" alt="">
 										</div>
 
@@ -524,6 +525,7 @@
 					if( this.isTouch ){
 						return;
 					}
+					return;
   					var box = this.domBox;
   					var layer1 = this.domLayer1;
   					var layer2 = this.domLayer2;
@@ -664,7 +666,8 @@
 
 
 			setTimeout(()=>{
-
+				/**
+				 * 
 				var cloud = this.$refs['cloud'];
 				zmitiAnimate.mTween({
 					el:cloud,
@@ -684,6 +687,7 @@
 						})
 					}
 				});
+				 */
 
 
 				zmitiAnimate.mTween({
@@ -691,7 +695,7 @@
 					attrs:{
 						translateZ:perspective
 					},
-					duration:4000,
+					duration:5000,
 					cb:()=>{
 						
 						
@@ -704,7 +708,7 @@
 					attrs:{
 						'rotateY':720
 					},
-					duration:4000,
+					duration:5000,
 					cb:()=>{
 						this.rotateStop = true;
 						this.bindEvent();
@@ -718,7 +722,7 @@
 					attrs:{
 						'rotateY':720
 					},
-					duration:4000,
+					duration:5000,
 					cb:()=>{
 					}
 				});
@@ -728,7 +732,7 @@
 					attrs:{
 						'rotateY':680
 					},
-					duration:4000,
+					duration:5000,
 					cb:()=>{
 					}
 				});
@@ -737,7 +741,7 @@
 					attrs:{
 						'rotateY':680
 					},
-					duration:4000,
+					duration:5000,
 					cb:()=>{
 					}
 				});

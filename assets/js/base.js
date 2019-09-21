@@ -41,6 +41,7 @@ window.imgs = {
 	year2008:'./assets/images/2008.png',
 	year2017:'./assets/images/2017.png',
 	year2017_1:'./assets/images/2017-1.png',
+	year2017_2:'./assets/images/2017-2.png',
 	year2019:'./assets/images/2019.png',
 
 	chengbushi: "./assets/images/chengbushi.jpg",
@@ -56,7 +57,7 @@ window.imgs = {
 	lizhiwei: "./assets/images/lizhiwei.jpg",
 	mayipeng: "./assets/images/mayipeng.jpg",
 	qixiansheng: "./assets/images/qixiansheng.jpg",
-	//songxi: "./assets/images/songxi.jpg",
+	songxi: "./assets/images/songxi.jpg",
 	xieshoudong: "./assets/images/xieshoudong.jpg",
 	longxianwen: "./assets/images/longxianwen.jpg",
 
@@ -74,7 +75,8 @@ window.imgs = {
 	lizhiwei1: "./assets/images/lizhiwei1.jpg",
 	mayipeng1: "./assets/images/mayipeng1.jpg",
 	qixiansheng1: "./assets/images/qixiansheng1.jpg",
-	/* songxi1: "./assets/images/songxi1.jpg",
+	//songxi1: "./assets/images/songxi1.jpg",
+	/*
 	xieshoudong1: "./assets/images/xieshoudong1.jpg", */
 	longxianwen1: "./assets/images/longxianwen1.jpg",
 
@@ -115,7 +117,7 @@ for (var i = 1; i <= 27; i++) {
 	});
 } */
 var clouds = [];
-for(var i = 0 ;i < 9 ; i++){
+for(var i = 0 ;i < 0 ; i++){
 	clouds.push({
 		img: "./assets/images/cloud/cloud" + (i % 3 + 1) + ".png",
 		rotateY: (Math.random() * 360 | 0),
@@ -288,7 +290,7 @@ var layer1 = [
 				height:' 259px',
 				opacity:0
 			},
-			audio: "./assets/music/8.mp3"
+			audio: "./assets/music/7.mp3"
 		}	
 	},//10
 	{
@@ -403,12 +405,12 @@ var layer1 = [
 		dom: {
 			img: imgs.year2017_1,
 			title: "科技创新、重大工程建设捷报频传",
-			headimg: imgs.qixiansheng,
-			headimg1: imgs.qixiansheng1,
-			poster: imgs.qixiansheng2,
-			nickname:'普通市民 齐先生',
-			content: '科技创新、重大工程建设捷报频传。“慧眼”“悟空”遨游太空，嫦娥四号首探月背、“中国天眼”落成启用，C919大型客机飞上蓝天，量子计算机研制成功，海水稻进行测产，首艘国产航母下水，“海翼”号深海滑翔机完成深海观测，海域可燃冰试采成功，洋山四期自动化码头正式开港，港珠澳大桥主体工程全线贯通，复兴号奔驰在祖国广袤的大地上……',
-			introduce: "不管从老百姓、从国家都确实是得到实实在在的好处，国家飞跃地发展，人民生活水平在极速地提高，这要感谢党、感谢国家。",
+			headimg: imgs.songxi,
+			headimg1: imgs.songxi,
+			poster: imgs.longxianwen2,
+			nickname: '北京大学研究生 宋玺',
+			content: '2017年10月，中国共产党第十九次全国代表大会在人民大会堂举行，中国特色社会主义进入新时代。《2017年 十九大召开，中国特色社会主义进入新时代》',
+			introduce: "<div style='margin:10px 0;'>做努力奔跑的追梦人，我们的奋斗终将伟大。</div><div style='margin:10px 0;'>宁夏科研工作者 谢守栋: 用自己学到的东西，报效祖国。湖南牛角山村村民 </div><div style='margin:10px 0;'>龙献文: 撸起袖子加油干，幸福都是奋斗出来的。</div>",
 			style: {
 				transform:' translateZ(145px)',
 				top:' 66%',
@@ -417,33 +419,53 @@ var layer1 = [
 				width:' 462px',
 				opacity: 0
 			},
-			audio: "./assets/music/13.mp3"
+			audio: "./assets/music/14.mp3"
 		}
 	},//18
+	
 	{
-		
-	},//19
-	{
-		dom: {
+		/*dom: {
 			img: imgs.year2019,
 			title: '2019年 新中国70周年',
 			headimg: imgs.longxianwen,
 			headimg1: imgs.longxianwen1,
 			poster: imgs.longxianwen2,
-			nickname:'北京大学研究生 宋玺',
+			nickname: '北京大学研究生 宋玺',
 			content: '2017年10月，中国共产党第十九次全国代表大会在人民大会堂举行，中国特色社会主义进入新时代。《2017年 十九大召开，中国特色社会主义进入新时代》',
 			introduce: "做努力奔跑的追梦人，我们的奋斗终将伟大。宁夏科研工作者 谢守栋: 用自己学到的东西，报效祖国。湖南牛角山村村民 龙献文: 撸起袖子加油干，幸福都是奋斗出来的。",
 			style: {
-				transform:' rotateY(0) translateZ(160px)',
-   				 top:' 34%',
-				left:' -307px',
-				height:' 333px',
-				width:' 500px',
-				opacity:0
+				transform: ' rotateY(0) translateZ(160px)',
+				top: ' 34%',
+				left: ' -307px',
+				height: ' 333px',
+				width: ' 500px',
+				opacity: 0
 			},
 			audio: "./assets/music/14.mp3"
+		} */
+	},
+	{
+		dom: {
+			img: imgs.year2017_2,
+			title: '2019年 新中国70周年',
+			headimg: imgs.qixiansheng,
+			headimg1: imgs.qixiansheng1,
+			poster: imgs.qixiansheng2,
+			nickname: '普通市民 齐先生',
+			content: '科技创新、重大工程建设捷报频传。“慧眼”“悟空”遨游太空，嫦娥四号首探月背、“中国天眼”落成启用，C919大型客机飞上蓝天，量子计算机研制成功，海水稻进行测产，首艘国产航母下水，“海翼”号深海滑翔机完成深海观测，海域可燃冰试采成功，洋山四期自动化码头正式开港，港珠澳大桥主体工程全线贯通，复兴号奔驰在祖国广袤的大地上……',
+			introduce: "不管从老百姓、从国家都确实是得到实实在在的好处，国家飞跃地发展，人民生活水平在极速地提高，这要感谢党、感谢国家。",
+			
+			style: {
+				transform: ' rotateY(0) translateZ(160px)',
+				top: ' 71%',
+				left: ' -144px',
+				height: ' 180px',
+				width: ' 300px',
+				opacity: 0
+			},
+			audio: "./assets/music/13.mp3"
 		}
-	}//20
+	},//19//20
 ];
 /* for (var i = 0; i < 20; i++) {
 	window.imgs['img' + (i + 1)] = './assets/images/bg/1_' + (i + 1 <= 9 ? '0' + (i + 1) : i + 1) + '.png';

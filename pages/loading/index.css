@@ -50,9 +50,7 @@
 .zmiti-img-rocket {
   position: absolute;
   left: 100px;
-  top: 700px;
-  -webkit-animation: fly 5s linear forwards;
-  animation: fly 5s linear forwards;
+  top: 600px;
 }
 
 .zmiti-img-rocket img {
@@ -106,7 +104,6 @@
 .zmiti-prec {
   position: absolute;
   bottom: 100px;
-  font-weight: bold;
   text-align: center;
   width: 100%;
   font-family: Georgia, 'Times New Roman', Times, serif;
