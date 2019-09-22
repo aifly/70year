@@ -127,7 +127,6 @@ new Vue({
 			s.width = scale;
 
 		}, () => {
-
 			obserable.trigger({
 				type:'hideloading'
 			});

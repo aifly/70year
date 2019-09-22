@@ -71,20 +71,27 @@
 									<div class='zmiti-year-img'>
 										<img :src="currentObj.img" alt="">
 									</div>
-									<div class='zmiti-detail-bottom'>
-										<ZmitiAudio :show='!showBackPage' :audio='audio' :obserable='obserable' :src='currentObj.audio'></ZmitiAudio>
-									</div>
-									<div class='zmiti-detail-intro'>
-										<div>
-											<img :src="currentObj.headimg" alt="">
-										</div>
-										<div v-html='currentObj.nickname'>
-											
-										</div>
-									</div>
 									<div class='zmiti-detail-wrap' ref='wrap'>
 										<div>
 											{{currentObj.content}}
+										</div>
+									</div>
+									<div class='zmiti-detail-bottom'>
+										<ZmitiAudio :show='!showBackPage' :audio='audio' :obserable='obserable' :src='currentObj.audio'></ZmitiAudio>
+									</div>
+									<div class='zmiti-detail-intro' v-if="typeof currentObj.headimg === 'object'" style="padding-right:76px;background:url(./assets/images/shome.png) no-repeat right top;opacity: 1">
+										
+										<div>
+											<img v-for='(img,i) in currentObj.headimg' :key="i" :src='img' alt="">
+										</div>
+										 
+									</div>
+									<div class='zmiti-detail-intro' v-else  style="padding-right:76px;background:url(./assets/images/shome.png) no-repeat right top;opacity: 1">
+										<div style="">
+											<img :src="currentObj.headimg" alt=""/>
+										</div>
+										<div v-html='currentObj.nickname'>
+											
 										</div>
 									</div>
 									
@@ -247,7 +254,7 @@
 						height:'1116px',
 						background:'url('+item.img+') no-repeat center center',
 						backgroundSize:'cover',
-						transform:"rotateY("+-angle*i+"deg) scale(1.01) translateZ("+-Z1+"px)",
+						transform:"rotateY("+-angle*i+"deg) scale(1.02) translateZ("+-Z1+1+"px)",
 					}
 				});
 
@@ -257,7 +264,7 @@
 						height:'1146px',
 						background:'url('+item.img+') no-repeat center center',
 						backgroundSize:'cover',
-						transform:"rotateY("+-angle*i+"deg) translateZ("+-Z2+"px)",
+						transform:"rotateY("+-angle*i+"deg) scale(1.005) translateZ("+-Z2+"px)",
 					}
 				});
 				this.layer3.forEach((item,i)=>{
@@ -266,7 +273,7 @@
 						height:'1176px',
 						background:'url('+item.img+') no-repeat center center',
 						backgroundSize:'cover',
-						transform:"rotateY("+-angle*i+"deg) translateZ("+-Z3+"px)",
+						transform:"rotateY("+-angle*i+"deg) scale(1.005) translateZ("+-Z3+"px)",
 					}
 				});
 			},
@@ -321,15 +328,18 @@
 				}, 100);
 			},
   			touchstart(e){
-				clearTimeout(this.touchTimer);
-  				this.isTouch = true;
+
+				  ///console.log(this.rotateStop,this.isTouch);
   				if(!this.isTouch){
-  					return;
-  				}
+  					//return;
+				  }
+				//document.title = this.rotateStop + 'startSSSSS'
   				if(!this.rotateStop){
   					return;
   				}
-  				this.startRotateY = zmitiAnimate.css(this.domBox,'rotateY'); 
+				clearTimeout(this.touchTimer);
+
+				this.startRotateY = zmitiAnimate.css(this.domBox,'rotateY'); 
   				this.startRotateLayer1 = zmitiAnimate.css(this.domLayer1,'rotateY');
   				this.startRotateLayer2 = zmitiAnimate.css(this.domLayer2,'rotateY');
 				this.startRotateLayer3 = zmitiAnimate.css(this.domLayer3,'rotateY');
@@ -349,6 +359,8 @@
 				///this.startZ = zmitiAnimate.css(this.$refs['toZ'],'translateZ');
   			},
   			touchmove(e){
+				  //console.log(this.rotateStop,'move')
+				//document.title = this.rotateStop;
   				if(!this.rotateStop ){
   					return;
   				}
@@ -395,16 +407,15 @@
   			touchend(e){
 
   				if(!this.isTouch){
-  					return;
+  					//return;
 				  }
 				  
-  				 
   				if(!this.rotateStop ||this.lastSpeed === 0||Date.now()-this.lastTime>=40){
 					
   					setTimeout(()=>{
 						this.isTouch = false;
   						this.isStart = false;
-					  },330);
+					  },0);
   					return;
   				}
 
@@ -415,11 +426,11 @@
   					
 				///zmitiAnimate.css(this.$refs['box'],'rotateY',this.startRotateY-angle);
 				//缓存距离
-
-				var dis = (this.lastSpeed)/this.viewW * 120;
-				var layer1Dis  = (this.lastSpeed)/this.viewW * 200;;
-				var layer2Dis  = (this.lastSpeed)/this.viewW * 170;;
-				var layer3Dis  = (this.lastSpeed)/this.viewW * 140;;
+				var k = 200;
+				var dis = (this.lastSpeed)/this.viewW * k;
+				var layer1Dis  = (this.lastSpeed)/this.viewW * (k+120);
+				var layer2Dis  = (this.lastSpeed)/this.viewW * (k+80);;
+				var layer3Dis  = (this.lastSpeed)/this.viewW * (k+40);;
 
 			
 
@@ -440,7 +451,6 @@
 					},
 					cb:()=>{
 						
-					
 						//zmitiAnimate.css(this.$refs['box'],'rotateX',0);
 					}
 				})
@@ -545,44 +555,11 @@
   						var nowDeg = (e.alpha + e.gamma)%360;
   						var disDeg = nowDeg - this.startDeg;
   						zmitiAnimate.css(box,'rotateY',disDeg + this.startBoxDeg);
-  						zmitiAnimate.css(layer1,'rotateY',(disDeg + this.startlayer1Deg)*2);
+  						zmitiAnimate.css(layer1,'rotateY',(disDeg + this.startlayer1Deg));
   						zmitiAnimate.css(layer2,'rotateY',(disDeg + this.startlayer2Deg));
   						zmitiAnimate.css(layer3,'rotateY',disDeg+ this.startlayer3Deg);
   					}
 				  });
-				   if (window.DeviceMotionEvent) {
-						//window.addEventListener('devicemotion',deviceMotionHandler,false);
-					}
-
-						
-					//获取加速度信息
-					//通过监听上一步获取到的x, y, z 值在一定时间范围内的变化率，进行设备是否有进行晃动的判断。
-					//而为了防止正常移动的误判，需要给该变化率设置一个合适的临界值。
-					var SHAKE_THRESHOLD = 8000;
-					var last_update = 0;
-					var x, y, z, last_x = 0, last_y = 0, last_z = 0;
-					function deviceMotionHandler(eventData) {
-							var acceleration =eventData.accelerationIncludingGravity;
-							var curTime = new Date().getTime();
-							if ((curTime-last_update)> 10) {
-								var diffTime = curTime -last_update;
-								last_update = curTime;
-								x = acceleration.x;
-								y = acceleration.y;
-								z = acceleration.z;
-								var speed = Math.abs(x +y + z - last_x - last_y - last_z) / diffTime * 10000;
-								if (speed > SHAKE_THRESHOLD) {
-									var index = s.getIndex();
-									s.currentObj = s.layer1[index].dom;
-									s.$nextTick(()=>{
-										s.toggleAudio();
-									})
-								}
-								last_x = x;
-								last_y = y;
-								last_z = z;
-							}
-					}
 			 },
 			 getIndex(){
 				 var index = (14*Math.random())|0;
@@ -598,12 +575,6 @@
 		mounted() { 
 			//
 
-
-			
-			
-			
-
-			this.showClound = true;
 			////
 			var angle = 360 / this.bgImgs.length;
 			
@@ -626,19 +597,18 @@
 			this.createLayer(angle,Z1,Z2,Z3);
 
 
-			console.log(Z)
 
-			this.clouds.forEach((item,i,arr)=>{
+			/* this.clouds.forEach((item,i,arr)=>{
 				item.rotateY = (360/arr.length)*i;
 				item.style = {
 					transform: 'translate3d('+(Math.random() * Z  * (Math.random() > .5 ? 2 : -1)) +'px,' +  (Math.random() * Z * (Math.random() > .5 ? 1 : -1))  + 'px,' + Z * (Math.random() > .5 ? 1 : -1) + 'px) rotateY(' + item.rotateY  + 'deg) ',
 					// background: 'url(' + "./assets/images/loading/loadIco" + (i % 9 + 1) + ".png" + ') no-repeat center',
 					}
-			})
+			}) */
 
 			
 
-			var perspective = Math.tan(Math.PI/180*50)* this.viewH /2*2 ;
+			var perspective = Math.tan(Math.PI/180*52)* this.viewH /2*2 ;
 			this.perspective = perspective;
 			 
 
@@ -656,8 +626,8 @@
 			zmitiAnimate.css(this.domLayer2,'rotateY',0);
 			zmitiAnimate.css(this.domLayer3,'rotateY',0);
 
-			zmitiAnimate.css(this.$refs['cloud'],'rotateY',0);
-			zmitiAnimate.css(this.$refs['cloud'],'translateX',0);
+			/* zmitiAnimate.css(this.$refs['cloud'],'rotateY',0);
+			zmitiAnimate.css(this.$refs['cloud'],'translateX',0); */
 	/* 		[...this.$refs['cloud'].querySelectorAll('img')].forEach(item=>{
 				zmitiAnimate.css(item,'rotateY',0);
 			}) */
@@ -710,6 +680,9 @@
 					},
 					duration:5000,
 					cb:()=>{
+
+						this.isTouch = true;
+						
 						this.rotateStop = true;
 						this.bindEvent();
 						

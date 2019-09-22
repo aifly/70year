@@ -85,23 +85,37 @@
 		mounted(){
 
 
+			
+			var s = this;
+			/* if(typeof Worker === 'function'){
+
+				var worker = new Worker('./assets/js/worker.js');
+				worker.onmessage = e =>{
+					s.index = e.data;
+				}
+
+				this.obserable.on('clearWorker',()=>{
+					worker.postMessage(1);
+					worker.terminate();
+				})
+			}
+			else{
+			
+			} */
+
 			var t = setInterval(() => {
 				this.index++;
 				this.index%=7;
-				
 			}, 100);
-
-			
-
 			setTimeout(() => {
-				this.beginLoading = true;
+				s.beginLoading = true;
 			}, 10);
 
 
-			setInterval(() => {
+		/* 	setInterval(() => {
 				this.beginLoading = !this.beginLoading;
 				this.scale = !this.scale;
-			},4120);
+			},4120); */
  
 
 			this.obserable.on('hideloading',()=>{

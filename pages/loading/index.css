@@ -39,7 +39,8 @@
 .zmiti-loading1 {
   z-index: 1200;
   background: #fff;
-  perspective: 800px;
+  -webkit-perspective: 800px;
+          perspective: 800px;
 }
 
 .zmiti-img70 {
@@ -56,6 +57,13 @@
 .zmiti-img-rocket img {
   width: auto;
   height: 200px;
+}
+
+@-webkit-keyframes fly {
+  to {
+    -webkit-transform: translate(0, -1000px);
+    transform: translate(0, -1000px);
+  }
 }
 
 @keyframes fly {
@@ -172,3 +180,4 @@
 .zmiti-loading-pig {
   padding-bottom: 10px;
 }
+/*# sourceMappingURL=index.css.map */
