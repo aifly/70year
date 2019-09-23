@@ -164,10 +164,8 @@
 	
 	import zmitiUtil from '../lib/util';
 	import IScroll from 'iscroll';
-	import Toast from '../toast/toast';
 	import Vue from 'vue';
 	import zmitiAnimate from '../lib/mTween';
-	import ISroll from 'iscroll';
 	import ZmitiAudio  from './audio';
 	export default {
 		props: ['obserable', 'pv', 'randomPv', 'nickname', 'headimgurl'],
@@ -183,6 +181,8 @@
 				layer3:window.layer3,
 
 				showBackPage:false,
+				secretKey: "e9469538b0623783f38c585821459454",
+				host: "https://activity.xhsxmt.com", //测试域名：https://testxlive.xinhuaapp.com
 
 				clouds:window.clouds,
 				imgs:window.imgs,
@@ -209,7 +209,6 @@
 		},
 	
 		components: {
-			Toast,
 			ZmitiAudio
 		},
 		watch:{
@@ -307,6 +306,29 @@
 					data:true
 				})
 			},
+			updatePv() {
+				var s = this;
+				axios.post(s.host + '/activity/num/updateNum', ({
+					"secretKey": s.secretKey, // 请求秘钥
+					"nm": "大国小家" // 活动某组图片点赞标识 或者活动某组图片浏览量标识 标识由更新接口定义
+				})).then(function (data) {
+					var dt = data.data;
+					if (typeof dt === 'string') {
+						dt = JSON.parse(dt);
+					}
+				});
+
+				axios.post(s.host + '/activity/num/getNum', ({
+					"secretKey": s.secretKey, // 请求秘钥
+					"nm": "大国小家" // 活动某组图片点赞标识 或者活动某组图片浏览量标识 标识由更新接口定义
+				})).then(function (data) {
+					var dt = data.data;
+					if (typeof dt === 'string') {
+						dt = JSON.parse(dt);
+					}
+					console.log(dt);
+				});
+			},
 			showDetail(item){
 
 				this.currentObj = item.dom;
@@ -321,10 +343,9 @@
 						scrollbars:true
 					});
 
-					this.scroll1 &&this.scroll.destroy();
-					this.scroll1 = new IScroll(this.$refs['wrap1'],{
-						scrollbars:true
-					});
+					setTimeout(() => {
+						this.scroll.refresh();
+					}, 500);
 				}, 100);
 			},
   			touchstart(e){
@@ -576,6 +597,7 @@
 			//
 
 			////
+			this.updatePv();
 			var angle = 360 / this.bgImgs.length;
 			
 			var Z = Math.tan(Math.PI/180*(180-angle)/2)*200/2;

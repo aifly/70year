@@ -36,6 +36,7 @@ new Vue({
 		pv:820121,
 		width:0,
 		loaded: false,
+	
 		nickname: '',
 		headimgurl: '',
 
@@ -89,9 +90,7 @@ new Vue({
 			loadimg();
 		},
 	
-		updatePv() {
-			
-		}
+		
 	},
 	components: {
 		Music,
@@ -147,7 +146,7 @@ new Vue({
 			this.pv += data;
 
 		});
-		this.updatePv();
+		
 		//zmitiUtil.getOauthurl(obserable);
 		//zmitiUtil.wxConfig(document.title, window.desc);
 		
